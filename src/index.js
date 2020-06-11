@@ -4,6 +4,8 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import './stylesheets/main.scss';
 
+import { BrowserRouter as Router } from 'react-router-dom'
+
 //rem
 import './utils/rem.js'
 
@@ -11,12 +13,18 @@ import './utils/rem.js'
 import { Provider } from 'react-redux'
 import store from './store'
 
+
+// import { DatePicker } from 'antd-mobile';
+
+
+
+
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      {/* <Router> */}
+      <Router>
         <App />
-      {/* </Router> */}
+      </Router>
     </Provider>
   </React.StrictMode>,
   document.getElementById('root')
