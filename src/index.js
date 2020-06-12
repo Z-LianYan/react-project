@@ -7,16 +7,11 @@ import './stylesheets/main.scss';
 import { BrowserRouter as Router } from 'react-router-dom'
 
 //rem
-import './utils/rem.js'
+import './utils/rem.js';
 
 //引入provider
-import { Provider } from 'react-redux'
-import store from './store'
-
-
-// import { DatePicker } from 'antd-mobile';
-
-
+import { Provider } from 'react-redux';
+import store from './store';
 
 
 ReactDOM.render(
