@@ -22,6 +22,9 @@ class Home extends Component{
         return (
             <div>
                 Home
+                <img src={require("../../static/images/logo.png")} alt=""/>
+                <img src={require("@/static/images/logo.png")} alt=""/>
+                {/* <img src="https://m.juooo.com/static/img/tab_icon_home_selected.3d60fa8.png" alt="上海鲜花港 - 郁金香" /> */}
             </div>
         )
     }
@@ -36,10 +39,14 @@ class Home extends Component{
         //返回一个布尔值 true表示会触发重新渲染，false表示不会触发重新渲染，
         //默认返回true,我们通常利用此生命周期来优化React程序性能
         console.log("shouldComponentUpdate")
+        return true;
     }
 
     getSnapshotBeforeUpdate(prevProps, prevState){//prevProps和prevState，表示之前的属性和之前的state
+        //这个函数有一个返回值，会作为第三个参数传给componentDidUpdate，
+        //如果你不想要返回值，可以返回null，此生命周期必须与componentDidUpdate搭配使用
         console.log("getSnapshotBeforeUpdate 在render之后，componentDidUpdate之前调用")
+        return null;
     }
 
     componentDidUpdate(prevProps, prevState, snapshot){
@@ -67,26 +74,6 @@ class Home extends Component{
     componentDidCatch(error,info){//异常处理
         console.log("后代组件抛出错误后被调用",error,info)
     }
-
-
-
-
-
-
-
-    // componentWillMount(){//被废弃(但并未删除)官方计划在17版本完全删除 
-    //     //如果和 getDerivedStateFromProps 同时存在会报错
-    //     console.log("componentWillMount")
-    // }
-
-    // componentWillReceiveProps(){//被废弃(但并未删除)官方计划在17版本完全删除
-    //     console.log("componentWillReceiveProps")
-    // }
-
-    // componentWillUpdate(){//被废弃(但并未删除)官方计划在17版本完全删除
-    //     console.log("componentWillUpdate")
-    // }
-
 
 }
 

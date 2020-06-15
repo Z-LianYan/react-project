@@ -1,6 +1,7 @@
 import React,{ Component } from "react";
+import "./index.scss";
 
-class Home extends Component{
+export default class Theater extends Component{
     constructor(props){//构造函数，最先被执行,通常在构造函数里初始化state对象或者给自定义方法绑定this
         console.log("构造函数，最先被执行")
         super(props);
@@ -20,7 +21,7 @@ class Home extends Component{
 
         return (
             <div>
-                Home
+                Templates
             </div>
         )
     }
@@ -70,6 +71,25 @@ class Home extends Component{
     componentDidCatch(error,info){//异常处理
         console.log("后代组件抛出错误后被调用",error,info)
     }
-}
 
-export default Home;
+
+
+
+
+
+
+    // componentWillMount(){//被废弃(但并未删除)官方计划在17版本完全删除 
+    //     //如果和 getDerivedStateFromProps 同时存在会报错
+    //     console.log("componentWillMount")
+    // }
+
+    // componentWillReceiveProps(){//被废弃(但并未删除)官方计划在17版本完全删除
+    //     console.log("componentWillReceiveProps")
+    // }
+
+    // componentWillUpdate(){//被废弃(但并未删除)官方计划在17版本完全删除
+    //     console.log("componentWillUpdate")
+    // }
+
+
+}

@@ -5,71 +5,44 @@ import './index.scss'
 
 import { TabBar } from 'antd-mobile';
 
+import Logo from "../../../static/images/logo.png"
+
 class TabBarCom extends Component {
     constructor(props) {
       super(props);
       this.state = {
         selectedTab: 'redTab',
         hidden: false,
-        fullScreen: false,
+        fullScreen: true,
       };
-    }
-  
-    renderContent(pageText) {
-      return (
-        <div style={{ backgroundColor: 'white', height: '100%', textAlign: 'center' }}>
-          <div style={{ paddingTop: 60 }}>Clicked “{pageText}” tab， show “{pageText}” information</div>
-          <a style={{ display: 'block', marginTop: 40, marginBottom: 20, color: '#108ee9' }}
-            onClick={(e) => {
-              e.preventDefault();
-              this.setState({
-                hidden: !this.state.hidden,
-              });
-            }}
-          >
-            Click to show/hide tab-bar
-          </a>
-          <a style={{ display: 'block', marginBottom: 600, color: '#108ee9' }}
-            onClick={(e) => {
-              e.preventDefault();
-              this.setState({
-                fullScreen: !this.state.fullScreen,
-              });
-            }}
-          >
-            Click to switch fullscreen
-          </a>
-        </div>
-      );
     }
   
     render() {
       return (
-        <div style={this.state.fullScreen ? { position: 'fixed', height: '100%', width: '100%', top: 0 } : { height: 400 }}>
+        <div style={this.state.fullScreen ? { position: 'fixed', height: '100%', width: '100%', top: 0 } : { height: '100%' }}>
           <TabBar
             unselectedTintColor="#949494"
-            tintColor="#33A3F4"
+            tintColor="#000"
             barTintColor="white"
             hidden={this.state.hidden}
             tabBarPosition="bottom"
           >
             <TabBar.Item
-              title="Life"
-              key="Life"
+              title="首页"
+              key="home"
               icon={<div style={{
                 width: '22px',
                 height: '22px',
-                background: 'url(https://zos.alipayobjects.com/rmsportal/sifuoDUQdAFKAVcFGROC.svg) center center /  21px 21px no-repeat' }}
+                background: `url(${require("../../../static/images/logo.png")}) center center /  21px 21px no-repeat` }}
               />
               }
               selectedIcon={<div style={{
                 width: '22px',
                 height: '22px',
-                background: 'url(https://zos.alipayobjects.com/rmsportal/iSrlOTqrKddqbOmlvUfq.svg) center center /  21px 21px no-repeat' }}
+                background: 'url(https://m.juooo.com//static/img/tab_icon_home_selected.3d60fa8.png) center center /  21px 21px no-repeat' }}
               />
               }
               selected={this.state.selectedTab === 'blueTab'}
-              badge={1}
               onPress={() => {
                 this.setState({
                   selectedTab: 'blueTab',
@@ -77,7 +50,8 @@ class TabBarCom extends Component {
               }}
               data-seed="logId"
             >
-              {this.renderContent('Life')}
+              <img src={require("../../../static/images/logo.png")} alt=""/>
+              {/* {this.renderContent('Life')} */}666
             </TabBar.Item>
             <TabBar.Item
               icon={
@@ -94,9 +68,8 @@ class TabBarCom extends Component {
                   background: 'url(https://gw.alipayobjects.com/zos/rmsportal/ekLecvKBnRazVLXbWOnE.svg) center center /  21px 21px no-repeat' }}
                 />
               }
-              title="Koubei"
-              key="Koubei"
-              badge={'new'}
+              title="剧院"
+              key="heater"
               selected={this.state.selectedTab === 'redTab'}
               onPress={() => {
                 this.setState({
@@ -105,7 +78,7 @@ class TabBarCom extends Component {
               }}
               data-seed="logId1"
             >
-              {this.renderContent('Koubei')}
+              {/* {this.renderContent('Koubei')} */}555
             </TabBar.Item>
             <TabBar.Item
               icon={
@@ -122,9 +95,8 @@ class TabBarCom extends Component {
                   background: 'url(https://zos.alipayobjects.com/rmsportal/IIRLrXXrFAhXVdhMWgUI.svg) center center /  21px 21px no-repeat' }}
                 />
               }
-              title="Friend"
-              key="Friend"
-              dot
+              title="票夹"
+              key="ticketFolder"
               selected={this.state.selectedTab === 'greenTab'}
               onPress={() => {
                 this.setState({
@@ -132,13 +104,13 @@ class TabBarCom extends Component {
                 });
               }}
             >
-              {this.renderContent('Friend')}
+              {/* {this.renderContent('Friend')} */}333
             </TabBar.Item>
             <TabBar.Item
               icon={{ uri: 'https://zos.alipayobjects.com/rmsportal/asJMfBrNqpMMlVpeInPQ.svg' }}
               selectedIcon={{ uri: 'https://zos.alipayobjects.com/rmsportal/gjpzzcrPMkhfEqgbYvmN.svg' }}
-              title="My"
-              key="my"
+              title="我的"
+              key="mine"
               selected={this.state.selectedTab === 'yellowTab'}
               onPress={() => {
                 this.setState({
@@ -146,7 +118,7 @@ class TabBarCom extends Component {
                 });
               }}
             >
-              {this.renderContent('My')}
+              {/* {this.renderContent('My')} */}123
             </TabBar.Item>
           </TabBar>
         </div>
