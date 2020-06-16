@@ -1,6 +1,10 @@
 import React,{ Component } from "react";
 import './index.scss';
 
+// import { Toast, WhiteSpace, WingBlank, Button } from 'antd-mobile';
+
+import { get_classify_home } from "@/api/home"
+
 class Home extends Component{
     constructor(props){//构造函数，最先被执行,通常在构造函数里初始化state对象或者给自定义方法绑定this
         console.log("构造函数，最先被执行")
@@ -15,6 +19,22 @@ class Home extends Component{
         return null;
     }
 
+    toast(){
+        // console.log("toast",Toast);
+        // Toast.loading("加载中...", 2)
+
+        get_classify_home({
+            city_id: 0,
+            abbreviation: "",
+            version: "6.1.1",
+            referer: 2
+        }).then(res=>{
+            console.log("123456",res);
+        })
+
+
+    }
+
 
     render(){
         console.log("render函数是纯函数")
@@ -23,7 +43,7 @@ class Home extends Component{
             <div>
                 Home
                 <img src={require("../../static/images/logo.png")} alt=""/>
-                <img src={require("@/static/images/logo.png")} alt=""/>
+                <img src={require("@/static/images/logo.png")} alt="" onClick={this.toast}/>
                 {/* <img src="https://m.juooo.com/static/img/tab_icon_home_selected.3d60fa8.png" alt="上海鲜花港 - 郁金香" /> */}
             </div>
         )
