@@ -1,18 +1,36 @@
 import React,{ Component } from "react";
-import "./index.scss";
+import './index.scss';
 
-export default class Theater extends Component{
+// import { Toast, WhiteSpace, WingBlank, Button } from 'antd-mobile';
+
+import { get_classify_home } from "@/api/home";
+
+class Home extends Component{
     constructor(props){//构造函数，最先被执行,通常在构造函数里初始化state对象或者给自定义方法绑定this
         console.log("构造函数，最先被执行")
         super(props);
         this.state = {
-
+            classifyListL:[]
         }
+        this.toast = this.toast.bind(this)
     }
 
     static getDerivedStateFromProps(nextProps, prevState){//挂载更新都会执行 (必须返回一个有效的状态对象(或null))
         console.log("getDerivedStateFromProps 是个静态方法,当我们接收到新的属性想去修改我们state")
         return null;
+    }
+
+    toast(){
+        get_classify_home({
+            city_id: 0,
+            abbreviation: "",
+            version: "6.1.1",
+            referer: 2
+        }).then(res=>{
+            console.log("123456",res);
+
+        })
+
     }
 
 
@@ -21,7 +39,8 @@ export default class Theater extends Component{
 
         return (
             <div>
-                Templates
+                theater
+                
             </div>
         )
     }
@@ -72,24 +91,6 @@ export default class Theater extends Component{
         console.log("后代组件抛出错误后被调用",error,info)
     }
 
-
-
-
-
-
-
-    // componentWillMount(){//被废弃(但并未删除)官方计划在17版本完全删除 
-    //     //如果和 getDerivedStateFromProps 同时存在会报错
-    //     console.log("componentWillMount")
-    // }
-
-    // componentWillReceiveProps(){//被废弃(但并未删除)官方计划在17版本完全删除
-    //     console.log("componentWillReceiveProps")
-    // }
-
-    // componentWillUpdate(){//被废弃(但并未删除)官方计划在17版本完全删除
-    //     console.log("componentWillUpdate")
-    // }
-
-
 }
+
+export default Home;

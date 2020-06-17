@@ -3,7 +3,9 @@
 import React, { Component } from 'react'
 import './index.scss'
 
-import { NavLink } from 'react-router-dom'
+import { NavLink } from 'react-router-dom';
+
+
 
 class AppFooter extends Component{
 	

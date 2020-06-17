@@ -1,18 +1,14 @@
 import React,{ Component } from "react";
-import './index.scss';
+import "./index.scss";
 
-import { get_classify_home } from "@/api/home";
+import { NavLink } from 'react-router-dom';
 
-import Classify from "./classify"
-
-class Home extends Component{
+export default class Classify extends Component{
     constructor(props){//构造函数，最先被执行,通常在构造函数里初始化state对象或者给自定义方法绑定this
         console.log("构造函数，最先被执行")
         super(props);
         this.state = {
-            classifyList:[]
         }
-        this.fetchData = this.fetchData.bind(this)
     }
 
     static getDerivedStateFromProps(nextProps, prevState){//挂载更新都会执行 (必须返回一个有效的状态对象(或null))
@@ -20,33 +16,36 @@ class Home extends Component{
         return null;
     }
 
-    fetchData(){
-        get_classify_home({
-            city_id: 0,
-            abbreviation: "",
-            version: "6.1.1",
-            referer: 2
-        }).then(data=>{
-            console.log("123456",data);
-            this.setState({
-                classifyList: data.classify_list
-            })
-        })
+    itemRender(){
+        const { classifyList } = this.props;
+
+        console.log("12346579哈哈哈😄",classifyList);
+
+
+
+        return classifyList.map( item =>(
+            <NavLink to={item.url}   key={item.id}>
+                {item.name}
+            </NavLink>
+        ))
+
     }
+
+
 
 
     render(){
         return (
-            <div>
-                <Classify classifyList={this.state.classifyList}/>
-                {/* <img src={require("@/images/img/logo.png")} alt="" onClick={this.toast}/> */}
-            </div>
+            <section className="classify-wrapper">
+                
+                {this.itemRender()}
+
+            </section>
         )
     }
 
     componentDidMount(){
         console.log("componentDidMount 组件装载之后调用")
-        this.fetchData();
     }
 
 
@@ -80,8 +79,6 @@ class Home extends Component{
     }
 
 
-
-
     
     static getDerivedStateFromError(error){//异常处理
         console.log("此生命周期会在渲染阶段后代组件抛出错误后被调用",error)
@@ -91,6 +88,5 @@ class Home extends Component{
         console.log("后代组件抛出错误后被调用",error,info)
     }
 
-}
 
-export default Home;
+}

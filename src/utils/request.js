@@ -1,7 +1,5 @@
 import axios from 'axios'
 
-// import { getToken,removeToken } from '@/common/tools';
-
 import { Toast } from 'antd-mobile';
 
 axios.defaults.withCredentials=true;
@@ -44,11 +42,18 @@ service.interceptors.response.use(
   }
 )
 
+
+
+let api = "";//跨域配置的api
+if(process.env.NODE_ENV === "development") {
+    api = "/api"
+}
+
 export function post(url,data,{isLoading=false,text="加载中..."}={}){
   return new Promise((resolve,reject)=>{
     if(isLoading) Toast.loading(text, 0);
     service({
-      url:url,
+      url: api + url,
       method:'POST',
       data:data,
       headers:{}
@@ -66,7 +71,7 @@ export function get(url,params,{isLoading=false,text="加载中..."}={}){
   return new Promise((resolve,reject)=>{
     if(isLoading) Toast.loading(text, 0)
     service({
-      url:url,
+      url:api + url,
       method:'GET',
       params:params,
       headers:{}      
