@@ -1,7 +1,23 @@
-.classify-wrapper{
-    padding: 0.1656rem 0.1656rem 0 0.1656rem;
+.classify-wrapper {
+    // padding: 0.1656rem 0.1656rem 0 0.1656rem;
     display: flex;
     flex-flow: row wrap;
-    // width: 0.76172rem;
-    // height: 0.72984rem;
+     
+    .item-wrapper {
+        width: 0.68376rem;
+        height: 0.68376rem;
+        display: flex;
+        flex-flow: column nowrap;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 0.12144rem;
+        img{
+            width: 0.44156rem;
+            height: 0.44156rem;
+        }
+        a {
+            font-size: 0.14rem;
+        }
+    }
+    
 }

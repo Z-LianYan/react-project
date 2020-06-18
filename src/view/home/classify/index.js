@@ -8,6 +8,7 @@ export default class Classify extends Component{
         console.log("构造函数，最先被执行")
         super(props);
         this.state = {
+
         }
     }
 
@@ -19,24 +20,28 @@ export default class Classify extends Component{
     itemRender(){
         const { classifyList } = this.props;
 
-        console.log("12346579哈哈哈😄",classifyList);
+        const classifyData = [];
 
+        classifyList.forEach(item=>{
+            if(item.category_id){
+                classifyData.push(item);
+            }
+        })
 
-
-        return classifyList.map( item =>(
-            <NavLink to={item.url}   key={item.id}>
-                {item.name}
-            </NavLink>
+        return classifyData.map( item =>(
+            <div className="item-wrapper" key={item.id}>
+                <img src={item.pic} alt="" />
+                <NavLink to={item.url} >
+                    {item.name}
+                </NavLink>
+            </div>
         ))
 
     }
 
-
-
-
     render(){
         return (
-            <section className="classify-wrapper">
+            <section className="classify-wrapper padding-trl">
                 
                 {this.itemRender()}
 
