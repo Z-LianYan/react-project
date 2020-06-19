@@ -3,13 +3,19 @@ import './index.scss';
 
 import { get_classify_home } from "@/api/home";
 
-import Classify from "./classify"
+import Classify from "./Classify";
+import SlideShow from "@/view/Home/Slideshow/index";
+
+
+
+import MyNavBar from "@/view/components/NavBar/index"
 
 class Home extends Component{
     constructor(props){//构造函数，最先被执行,通常在构造函数里初始化state对象或者给自定义方法绑定this
         console.log("构造函数，最先被执行")
         super(props);
         this.state = {
+            slideshowList:[],
             classifyList:[]
         }
         this.fetchData = this.fetchData.bind(this)
@@ -28,8 +34,10 @@ class Home extends Component{
             referer: 2
         }).then(data=>{
             console.log("123456",data);
+            console.log("slide",data.slide_list);
             this.setState({
-                classifyList: data.classify_list
+                classifyList: data.classify_list,
+                slideshowList: data.slide_list
             })
         })
     }
@@ -38,8 +46,25 @@ class Home extends Component{
     render(){
         return (
             <div>
+
+                <SlideShow slideshowList={this.state.slideshowList}/>
+
+
                 <Classify classifyList={this.state.classifyList}/>
-                {/* <img src={require("@/images/img/logo.png")} alt="" onClick={this.toast}/> */}
+
+                <MyNavBar/>
+
+                {/* <NavBar
+                mode="light"
+                leftContent="热门演出"
+                rightContent={[
+                    <div>
+                       全部 <Icon key="1" type="right" />
+                    </div>,
+                ]}
+                /> */}
+
+
             </div>
         )
     }

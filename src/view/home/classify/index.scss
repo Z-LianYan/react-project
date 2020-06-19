@@ -3,7 +3,8 @@
     display: flex;
     flex-flow: row wrap;
      
-    .item-wrapper {
+    
+    a {
         width: 0.68376rem;
         height: 0.68376rem;
         display: flex;
@@ -11,13 +12,12 @@
         align-items: center;
         justify-content: space-between;
         margin-bottom: 0.12144rem;
+        font-size: 0.14rem;
         img{
             width: 0.44156rem;
             height: 0.44156rem;
         }
-        a {
-            font-size: 0.14rem;
-        }
+        
     }
     
 }

@@ -1,14 +1,18 @@
 import React,{ Component } from "react";
 import "./index.scss";
 
+import { Carousel } from 'antd-mobile';
 import { NavLink } from 'react-router-dom';
 
-export default class Classify extends Component{
+
+
+export default class Templates extends Component{
     constructor(props){//构造函数，最先被执行,通常在构造函数里初始化state对象或者给自定义方法绑定this
         console.log("构造函数，最先被执行")
         super(props);
         this.state = {
-
+            data: ['1', '2', '3'],
+            imgHeight: 176
         }
     }
 
@@ -17,38 +21,62 @@ export default class Classify extends Component{
         return null;
     }
 
-    itemRender(){
-        const { classifyList } = this.props;
 
-        const classifyData = [];
+    render(){
+        console.log("render函数是纯函数",this.props.slideshowList)
+        console.log("render函数是纯函数----呵呵呵呵呵",this.state.slideshowList)
 
-        classifyList.forEach(item=>{
-            if(item.category_id){
-                classifyData.push(item);
+        const slideshowList = [];
+        this.props.slideshowList.forEach( item => {
+            if(item.url.indexOf("ticket")!==-1){
+                slideshowList.push(item);
             }
         })
 
-        return classifyData.map( item =>(
-            <NavLink to={item.url} key={item.id}>
-                <img src={item.pic} alt="" />
-                {item.name}
-            </NavLink>
-        ))
+        console.log("----录播",slideshowList);
 
-    }
-
-    render(){
         return (
-            <section className="classify-wrapper padding-trl">
-                
-                {this.itemRender()}
-
+            <section className="slideshow-wrapper padding-rl">
+                <Carousel
+                autoplay={true}
+                autoplayInterval={3000}
+                infinite
+                beforeChange={(from, to) => console.log(`slide from ${from} to ${to}`)}
+                afterChange={index => console.log('slide to', index)}
+                >
+                {slideshowList.map((val,index) => (
+                    <NavLink
+                    key={index}
+                    to="/">
+                    <img
+                        src={val.image_url}
+                        alt=""
+                        onLoad={() => {
+                            // fire window resize event to change height
+                            window.dispatchEvent(new Event('resize'));
+                            this.setState({ imgHeight: 'auto' });
+                            console.log("图片加载")
+                        }}
+                    />
+                    </NavLink>
+                ))}
+                </Carousel>
             </section>
         )
     }
 
     componentDidMount(){
+
         console.log("componentDidMount 组件装载之后调用")
+
+
+        // simulate img loading
+
+        setTimeout(() => {
+            this.setState({
+                data: ['AiyWuByWklrrUDlFignR', 'TekJlZRVCjLFexlOCuWn', 'IJOtIlfsYdTyaDTRVrLI'],
+            });
+        }, 100);
     }
 
 
@@ -82,6 +110,8 @@ export default class Classify extends Component{
     }
 
 
+
+
     
     static getDerivedStateFromError(error){//异常处理
         console.log("此生命周期会在渲染阶段后代组件抛出错误后被调用",error)
@@ -90,6 +120,25 @@ export default class Classify extends Component{
     componentDidCatch(error,info){//异常处理
         console.log("后代组件抛出错误后被调用",error,info)
     }
+
+
+
+
+
+
+
+    // componentWillMount(){//被废弃(但并未删除)官方计划在17版本完全删除 
+    //     //如果和 getDerivedStateFromProps 同时存在会报错
+    //     console.log("componentWillMount")
+    // }
+
+    // componentWillReceiveProps(){//被废弃(但并未删除)官方计划在17版本完全删除
+    //     console.log("componentWillReceiveProps")
+    // }
+
+    // componentWillUpdate(){//被废弃(但并未删除)官方计划在17版本完全删除
+    //     console.log("componentWillUpdate")
+    // }
 
 
 }
