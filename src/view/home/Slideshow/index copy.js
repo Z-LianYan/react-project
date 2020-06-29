@@ -1,12 +1,10 @@
 import React,{ Component } from "react";
 import "./index.scss";
 
-// import { Carousel } from 'antd-mobile';
+import { Carousel } from 'antd-mobile';
 import { NavLink } from 'react-router-dom';
 
 
-import Swiper from 'swiper';
-import 'swiper/css/swiper.css';
 
 export default class Slideshow extends Component{
     constructor(props){//构造函数，最先被执行,通常在构造函数里初始化state对象或者给自定义方法绑定this
@@ -31,51 +29,49 @@ export default class Slideshow extends Component{
             }
         })
 
+        // console.log("----录播",slideshowList);
 
         return (
             <section className="slideshow-wrapper padding-rl">
-                <div className="swiper-container">
-                    <div className="swiper-wrapper">
-                        
-                        {slideshowList.map((val,index) => (
-                            <div className="swiper-slide" key={index}>
-                                <NavLink
-                                key={index}
-                                to="/">
-                                <img
-                                    src={val.image_url}
-                                    alt=""
-                                    onLoad={() => {
-                                        // fire window resize event to change height
-                                        window.dispatchEvent(new Event('resize'));
-                                        this.setState({ imgHeight: '100%' });
-                                        // console.log("图片加载")
-                                    }}
-                                />
-                                </NavLink>
-                            </div>
-                        ))}
-                        
-                    </div>
-                    <div className="swiper-pagination"></div>
-                </div>
+                {slideshowList.length && <Carousel  //防止初始化不自动轮播
+                autoplay={false}
+                autoplayInterval={3000}
+                infinite
+                className="carousel"
+                selectedIndex={2}
+                // beforeChange={(from, to) => console.log(`slide from ${from} to ${to}`)}
+                // afterChange={index => console.log('slide to', index)}
+                dotActiveStyle={{background:"#fff",width:"0.13rem",borderRadius:'0.03rem'}}>
+                {slideshowList.map((val,index) => (
+                    <NavLink
+                    key={index}
+                    style={{height: this.state.imgHeight}}
+                    to="/">
+                    <img
+                        src={val.image_url}
+                        alt=""
+                        onLoad={() => {
+                            // fire window resize event to change height
+                            window.dispatchEvent(new Event('resize'));
+                            this.setState({ imgHeight: '100%' });
+                            // console.log("图片加载")
+                        }}
+                    />
+                    </NavLink>
+                ))}
+                </Carousel>}
             </section>
         )
     }
 
     componentDidMount(){
+        // let carousel = document.querySelector('.slider.am-carousel');
+        // let carouH = carousel.clientWidth/360*137;
+        // let carouUl = carousel.querySelector('ul.slider-list');
 
-        new Swiper('.swiper-container', {
-            autoplay: {
-                disableOnInteraction: false,
-                delay: 3000,
-                loop : true,
-            },
-            // 分页器
-            pagination: {
-                el: '.swiper-pagination'
-            }
-        })
+        // setTimeout(() => {
+        //     carouUl.style.height = `${carouH}px`;
+        // });
     }
 
 
