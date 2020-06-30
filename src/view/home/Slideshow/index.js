@@ -20,9 +20,8 @@ export default class Slideshow extends Component{
         return null;
     }
 
-
+    
     render(){
-        // console.log("render函数是纯函数",this.props.slideshowList)
 
         const slideshowList = [];
         this.props.slideshowList.forEach( item => {
@@ -36,7 +35,7 @@ export default class Slideshow extends Component{
             <section className="slideshow-wrapper padding-rl">
                 <div className="swiper-container">
                     <div className="swiper-wrapper">
-                        
+
                         {slideshowList.map((val,index) => (
                             <div className="swiper-slide" key={index}>
                                 <NavLink
@@ -64,18 +63,20 @@ export default class Slideshow extends Component{
     }
 
     componentDidMount(){
-
-        new Swiper('.swiper-container', {
-            autoplay: {
-                disableOnInteraction: false,
-                delay: 3000,
-                loop : true,
-            },
-            // 分页器
-            pagination: {
-                el: '.swiper-pagination'
-            }
-        })
+        setTimeout(() => {
+            new Swiper('.swiper-container', {
+                loop:true,
+                autoplay: {
+                    disableOnInteraction: false,
+                    delay: 3000,
+                },
+                // 分页器
+                pagination: {
+                    el: '.swiper-pagination'
+                },
+                
+            })
+        }, 1000);
     }
 
 
@@ -98,7 +99,8 @@ export default class Slideshow extends Component{
         //参数prevProps，prevState，snapshot，表示之前的props，之前的state，和snapshot
         //第三个参数是getSnapshotBeforeUpdate返回的,如果触发某些回调函数时需要用到 DOM 元素的状态，
         //则将对比或计算的过程迁移至 getSnapshotBeforeUpdate，然后在 componentDidUpdate 中统一触发回调或更新状态
-        // console.log("componentDidUpdate")
+        console.log("componentDidUpdate")
+        
     }
     
 

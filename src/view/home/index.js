@@ -6,8 +6,6 @@ import { get_classify_home } from "@/api/home";
 import Classify from "./Classify";
 import SlideShow from "@/view/Home/Slideshow/index";
 
-
-
 import MyNavBar from "@/view/components/NavBar/index"
 
 class Home extends Component{
@@ -46,24 +44,11 @@ class Home extends Component{
     render(){
         return (
             <div>
-
                 <SlideShow slideshowList={this.state.slideshowList}/>
-
-
                 <Classify classifyList={this.state.classifyList}/>
-
-                <MyNavBar/>
-
-                {/* <NavBar
-                mode="light"
-                leftContent="热门演出"
-                rightContent={[
-                    <div>
-                       全部 <Icon key="1" type="right" />
-                    </div>,
-                ]}
-                /> */}
-
+                <MyNavBar leftTitle="热门演出" rightTitle="全部" href="/热门演出"/>
+                <MyNavBar leftTitle="巡回演出" rightTitle="全部" href="/巡回演出"/>
+                <MyNavBar leftTitle="为你推荐"/>
 
             </div>
         )
