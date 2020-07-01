@@ -31,9 +31,12 @@ export default class Slideshow extends Component{
         })
 
 
+        console.log("黑白夜",slideshowList);
+
+
         return (
             <section className="slideshow-wrapper padding-rl">
-                <div className="swiper-container">
+                <div className="swiper-container slideshow-container">
                     <div className="swiper-wrapper">
 
                         {slideshowList.map((val,index) => (
@@ -64,7 +67,7 @@ export default class Slideshow extends Component{
 
     componentDidMount(){
         setTimeout(() => {
-            new Swiper('.swiper-container', {
+            new Swiper('.slideshow-container', {
                 loop:true,
                 autoplay: {
                     disableOnInteraction: false,

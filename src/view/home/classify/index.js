@@ -37,7 +37,7 @@ export default class Classify extends Component{
 
     render(){
         return (
-            <section className="classify-wrapper padding-trl">
+            <section className="classify-wrapper padding-rl padding-t">
                 
                 {this.itemRender()}
 

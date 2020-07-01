@@ -1,0 +1,51 @@
+.tour-wrapper{
+    padding: 0.2rem 0.05rem 0.15rem 0.13rem;
+    .content-wrapper{
+        padding: 0.15rem 0.13rem;
+        background-color: #F5F5F5;
+        border-radius: 0.05rem;
+        display: flex;
+        img{
+            width: 1rem;
+            height: 1.36rem;
+            border-radius: 0.05rem;
+        }
+        .right-content{
+            margin-left: 0.08rem;
+            .date{
+                margin-top: 0.04rem;
+                font-size: 0.12rem;
+                color: #666;
+            }
+            .tour-titel{
+                margin-top: 0.08rem;
+                color: #000;
+                line-height: 0.2rem;
+            }
+            .price-wrapper{
+                margin-top: 0.1rem;
+                .price{
+                    color: #ff6743;
+                    font-size: 0.16rem;
+                }
+                .qi{
+                    margin-left: 0.05rem;
+                    font-size: 0.12rem;
+                    color: #999;
+                }
+            }
+            .city-list{
+                margin-top: 0.1rem;
+                .num{
+                    color: #ff6743; 
+                    margin-right: 0.05rem;
+                }
+                .num-tour{
+                    font-size: 0.12rem;
+                    color: #999;
+                }
+            }
+        }
+    }
+    
+}

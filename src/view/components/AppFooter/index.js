@@ -17,7 +17,6 @@ class AppFooter extends Component{
 				<span>{item.title}</span>
 			</NavLink>
 		))
-		
 	}
 	
 	render(){

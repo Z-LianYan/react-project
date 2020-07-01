@@ -15,7 +15,7 @@ class App extends Component {
   	constructor(props) {
 		super(props)
 		this.state = {
-			//			hasFooter:true
+			//hasFooter:true
 		}
 	}
 
@@ -42,10 +42,10 @@ class App extends Component {
 
   render(){
     return (
-      <div className="App">
+      <section className="App">
         {this.renderRoute()}
         {this.renderFooter()}
-      </div>
+      </section>
     )
   }
 }

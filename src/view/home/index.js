@@ -1,12 +1,16 @@
 import React,{ Component } from "react";
 import './index.scss';
 
-import { get_classify_home } from "@/api/home";
+import { get_classify_home,GET_HOT_RECOMMEND_LIST,GET_TOUR_LIST } from "@/api/home";
 
 import Classify from "./Classify";
 import SlideShow from "@/view/Home/Slideshow/index";
 
-import MyNavBar from "@/view/components/NavBar/index"
+import MyNavBar from "@/view/components/NavBar/index";
+
+import HotRecommendList from "@/view/Home/HotRecommendList/index";
+
+import Tour from "@/view/Home/Tour/index";
 
 class Home extends Component{
     constructor(props){//构造函数，最先被执行,通常在构造函数里初始化state对象或者给自定义方法绑定this
@@ -14,7 +18,9 @@ class Home extends Component{
         super(props);
         this.state = {
             slideshowList:[],
-            classifyList:[]
+            classifyList:[],
+            hotRecommendList:[],
+            tourData:[]
         }
         this.fetchData = this.fetchData.bind(this)
     }
@@ -27,9 +33,7 @@ class Home extends Component{
     fetchData(){
         get_classify_home({
             city_id: 0,
-            abbreviation: "",
-            version: "6.1.1",
-            referer: 2
+            abbreviation: ""
         }).then(data=>{
             console.log("123456",data);
             console.log("slide",data.slide_list);
@@ -40,23 +44,44 @@ class Home extends Component{
         })
     }
 
+    async fetchHotRecommendList(){
+        let result = await GET_HOT_RECOMMEND_LIST({city_id: 0});
+        this.setState({
+            hotRecommendList:result.hots_show_list
+        })
+    }
+
+    async fetchTourData(){
+        const result = await GET_TOUR_LIST();
+        this.setState({
+            tourData:result.list
+        })
+    }
+
 
     render(){
         return (
-            <div>
+            <section className="home-container">
                 <SlideShow slideshowList={this.state.slideshowList}/>
                 <Classify classifyList={this.state.classifyList}/>
                 <MyNavBar leftTitle="热门演出" rightTitle="全部" href="/热门演出"/>
+                <HotRecommendList hotRecommendList={this.state.hotRecommendList}/>
+
                 <MyNavBar leftTitle="巡回演出" rightTitle="全部" href="/巡回演出"/>
+                <Tour tourData={this.state.tourData}/>
+
+
                 <MyNavBar leftTitle="为你推荐"/>
 
-            </div>
+            </section>
         )
     }
 
     componentDidMount(){
         // console.log("componentDidMount 组件装载之后调用")
         this.fetchData();
+        this.fetchHotRecommendList();
+        this.fetchTourData();
     }
 
 

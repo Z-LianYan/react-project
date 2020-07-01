@@ -13,7 +13,7 @@ import './utils/rem.js';
 import { Provider } from 'react-redux';
 import store from './store';
 
-
+import "./utils/filters";
 
 
 
