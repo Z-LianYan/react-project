@@ -1,7 +1,7 @@
-import Home from './Home';
+import Home from './Home/index';
 // import BuyCar from './BuyCar'
 // import List from './List'
-import Mine from './Mine';
+import Mine from '@/view/mine/index';
 import Theater from './Theater';
 
 

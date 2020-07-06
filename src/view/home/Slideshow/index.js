@@ -31,7 +31,7 @@ export default class Slideshow extends Component{
         })
 
 
-        console.log("黑白夜",slideshowList);
+        // console.log("黑白夜",slideshowList);
 
 
         return (
@@ -102,7 +102,7 @@ export default class Slideshow extends Component{
         //参数prevProps，prevState，snapshot，表示之前的props，之前的state，和snapshot
         //第三个参数是getSnapshotBeforeUpdate返回的,如果触发某些回调函数时需要用到 DOM 元素的状态，
         //则将对比或计算的过程迁移至 getSnapshotBeforeUpdate，然后在 componentDidUpdate 中统一触发回调或更新状态
-        console.log("componentDidUpdate")
+        // console.log("componentDidUpdate")
         
     }
     

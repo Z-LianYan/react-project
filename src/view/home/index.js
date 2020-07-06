@@ -1,9 +1,9 @@
 import React,{ Component } from "react";
 import './index.scss';
 
-import { get_classify_home,GET_HOT_RECOMMEND_LIST,GET_TOUR_LIST } from "@/api/home";
+import { get_classify_home,GET_HOT_RECOMMEND_LIST,GET_TOUR_LIST,GET_RECOMMEND_LIST } from "@/api/home";
 
-import Classify from "./Classify";
+import Classify from "@/view/Home/classify/index";
 import SlideShow from "@/view/Home/Slideshow/index";
 
 import MyNavBar from "@/view/components/NavBar/index";
@@ -11,6 +11,8 @@ import MyNavBar from "@/view/components/NavBar/index";
 import HotRecommendList from "@/view/Home/HotRecommendList/index";
 
 import Tour from "@/view/Home/Tour/index";
+
+import ForYouRecommendList from "@/view/Home/ForYouRecommendList/index";
 
 class Home extends Component{
     constructor(props){//构造函数，最先被执行,通常在构造函数里初始化state对象或者给自定义方法绑定this
@@ -26,7 +28,7 @@ class Home extends Component{
     }
 
     static getDerivedStateFromProps(nextProps, prevState){//挂载更新都会执行 (必须返回一个有效的状态对象(或null))
-        console.log("getDerivedStateFromProps 是个静态方法,当我们接收到新的属性想去修改我们state")
+        // console.log("getDerivedStateFromProps 是个静态方法,当我们接收到新的属性想去修改我们state")
         return null;
     }
 
@@ -35,8 +37,8 @@ class Home extends Component{
             city_id: 0,
             abbreviation: ""
         }).then(data=>{
-            console.log("123456",data);
-            console.log("slide",data.slide_list);
+            // console.log("123456",data);
+            // console.log("slide",data.slide_list);
             this.setState({
                 classifyList: data.classify_list,
                 slideshowList: data.slide_list
@@ -58,6 +60,19 @@ class Home extends Component{
         })
     }
 
+    async fetchRecommendList(){
+        const result = await GET_RECOMMEND_LIST({
+            city_id: 0,
+            category: "",
+            keywords: "",
+            venue_id: "",
+            start_time: "",
+            page: 1,
+            referer_type: "index"
+        });
+        console.log("推荐列表",result);
+    }
+
 
     render(){
         return (
@@ -73,6 +88,8 @@ class Home extends Component{
 
                 <MyNavBar leftTitle="为你推荐"/>
 
+                <ForYouRecommendList/>
+
             </section>
         )
     }
@@ -82,6 +99,7 @@ class Home extends Component{
         this.fetchData();
         this.fetchHotRecommendList();
         this.fetchTourData();
+        this.fetchRecommendList();
     }
 
 

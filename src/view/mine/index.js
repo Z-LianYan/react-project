@@ -10,7 +10,7 @@ class Home extends Component{
     }
 
     static getDerivedStateFromProps(nextProps, prevState){//挂载更新都会执行 (必须返回一个有效的状态对象(或null))
-        console.log("getDerivedStateFromProps 是个静态方法,当我们接收到新的属性想去修改我们state")
+        // console.log("getDerivedStateFromProps 是个静态方法,当我们接收到新的属性想去修改我们state")
         return null;
     }
 

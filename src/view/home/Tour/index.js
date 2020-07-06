@@ -16,27 +16,31 @@ export default class Tour extends Component {
 
     render() {
         const { tourData } = this.props;
-        console.log("tourData😂",tourData);
+        // console.log("tourData😂",tourData);
         // console.log("tourData😂", this.$formatDate);
         return (
             <section className="tour-wrapper">
                 {tourData.length && <div className="content-wrapper">
                     <img
-                        src={tourData[0].mobile_col_img}
-                        alt="" />
+                    src={tourData[0].mobile_col_img}
+                    alt="" />
                     <div className="right-content">
                         <p className="date">{this.$formatDate(tourData[0].start_time * 1000)} - {this.$formatMonthDay(tourData[0].end_time * 1000)}</p>
-                        <h4 className="tour-titel overflowEllipsis-tow">{tourData[0].name}</h4>
+                        <h4 className="tour-title overflow-ellipsis-tow">{tourData[0].name}</h4>
                         <p className="price-wrapper">
                             <span className="price">¥ 80</span>
                             <span className="qi">起</span>
                         </p>
-                        <ul className="city-list">
-                            <li>
-                                <span className="num">{tourData[0].citys.length}</span>
-                                <span className="num-tour">城巡演</span>
-                            </li>
-                        </ul>
+                        <div className="city-list">
+                            <span className="num">{tourData[0].citys.length}</span>
+                            <span className="num-tour">城巡演</span>
+                            <p className="city-wrapper">
+                                {tourData[0].citys.map((item,idx)=>(
+                                    <span className="city" key={item.id}>{item.name} {(idx+1)===tourData[0].citys.length?'':'|'}</span>
+                                ))}
+                            </p>
+                            
+                        </div>
                     </div>
                 </div>
                 }
@@ -76,11 +80,11 @@ export default class Tour extends Component {
 
 
     static getDerivedStateFromError(error) {//异常处理
-        console.log("此生命周期会在渲染阶段后代组件抛出错误后被调用", error)
+        // console.log("此生命周期会在渲染阶段后代组件抛出错误后被调用", error)
     }
 
     componentDidCatch(error, info) {//异常处理
-        console.log("后代组件抛出错误后被调用", error, info)
+        // console.log("后代组件抛出错误后被调用", error, info)
     }
 
 }
