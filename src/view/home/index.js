@@ -1,7 +1,14 @@
 import React,{ Component } from "react";
 import './index.scss';
 
-import { get_classify_home,GET_HOT_RECOMMEND_LIST,GET_TOUR_LIST } from "@/api/home";
+
+import actionCreator from '@/store/home/actionCreator'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+
+
+
+import { get_classify_home,GET_TOUR_LIST } from "@/api/home";
 
 import Classify from "./Classify";
 import SlideShow from "@/view/Home/Slideshow/index";
@@ -12,6 +19,7 @@ import HotRecommendList from "@/view/Home/HotRecommendList/index";
 
 import Tour from "@/view/Home/Tour/index";
 
+
 class Home extends Component{
     constructor(props){//构造函数，最先被执行,通常在构造函数里初始化state对象或者给自定义方法绑定this
         // console.log("构造函数，最先被执行")
@@ -19,7 +27,6 @@ class Home extends Component{
         this.state = {
             slideshowList:[],
             classifyList:[],
-            hotRecommendList:[],
             tourData:[]
         }
         this.fetchData = this.fetchData.bind(this)
@@ -45,10 +52,21 @@ class Home extends Component{
     }
 
     async fetchHotRecommendList(){
-        let result = await GET_HOT_RECOMMEND_LIST({city_id: 0});
-        this.setState({
-            hotRecommendList:result.hots_show_list
-        })
+        // let result = await GET_HOT_RECOMMEND_LIST({city_id: 0});
+        // this.setState({
+        //     hotRecommendList:result.hots_show_list
+        // })
+
+        this.props.getHotRecommendList({city_id: 0});
+
+        // setTimeout(() => {
+            console.log("热更新列表------",this.props.home.hotRecommendList)
+        // }, 2000);
+        
+
+
+
+
     }
 
     async fetchTourData(){
@@ -65,7 +83,7 @@ class Home extends Component{
                 <SlideShow slideshowList={this.state.slideshowList}/>
                 <Classify classifyList={this.state.classifyList}/>
                 <MyNavBar leftTitle="热门演出" rightTitle="全部" href="/热门演出"/>
-                <HotRecommendList hotRecommendList={this.state.hotRecommendList}/>
+                <HotRecommendList hotRecommendList={this.props.home.hotRecommendList}/>
 
                 <MyNavBar leftTitle="巡回演出" rightTitle="全部" href="/巡回演出"/>
                 <Tour tourData={this.state.tourData}/>
@@ -107,16 +125,9 @@ class Home extends Component{
         // console.log("componentDidUpdate")
     }
     
-
-
-    
     componentWillUnmount(){//组件 卸载 及 销毁 之前直接调用
         // console.log("getSnapshotBeforeUpdate 组件装载之后调用")
     }
-
-
-
-
     
     static getDerivedStateFromError(error){//异常处理
         // console.log("此生命周期会在渲染阶段后代组件抛出错误后被调用",error)
@@ -128,4 +139,10 @@ class Home extends Component{
 
 }
 
-export default Home;
+//mapDispatchToProps也是一个函数，接收一个参数为dispatch,其实就是store.dispatch
+//返回什么，UI组件的属性上就有什么！
+let mapDispatchToProps = dispatch => {
+    return bindActionCreators(actionCreator, dispatch)
+}
+
+export default connect(state=>state, mapDispatchToProps)(Home);

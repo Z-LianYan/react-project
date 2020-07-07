@@ -5,7 +5,7 @@ import { NavBar, Icon } from 'antd-mobile';
 
 import { NavLink } from 'react-router-dom';
 
-export default class Templates extends Component{
+export default class MyNavBar extends Component{
     constructor(props){
         super(props);
         this.state = {
