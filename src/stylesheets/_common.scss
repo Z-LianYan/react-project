@@ -23,13 +23,13 @@
     padding-left: 0.15rem;
 }
 
-.overflowEllipsis-tow{
+.overflow-ellipsis-tow{
     overflow: hidden;
     text-overflow: ellipsis;
     word-break: break-all;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
-    font-size: 0.14rem;
+    // font-size: 0.14rem;
     line-height: 0.18rem;
 }

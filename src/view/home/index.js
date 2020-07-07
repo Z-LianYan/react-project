@@ -2,15 +2,17 @@ import React,{ Component } from "react";
 import './index.scss';
 
 
-import actionCreator from '@/store/home/actionCreator'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
+import actionCreator from '@/store/home/actionCreator';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+
+import { ListView } from 'antd-mobile';
 
 
 
-import { get_classify_home,GET_TOUR_LIST } from "@/api/home";
+import { get_classify_home,GET_TOUR_LIST,GET_RECOMMEND_LIST } from "@/api/home";
 
-import Classify from "./Classify";
+import Classify from "@/view/Home/Classify/index";
 import SlideShow from "@/view/Home/Slideshow/index";
 
 import MyNavBar from "@/view/components/NavBar/index";
@@ -19,21 +21,34 @@ import HotRecommendList from "@/view/Home/HotRecommendList/index";
 
 import Tour from "@/view/Home/Tour/index";
 
+import ForYouRecommendList from "@/view/Home/ForYouRecommendList/index";
 
 class Home extends Component{
     constructor(props){//构造函数，最先被执行,通常在构造函数里初始化state对象或者给自定义方法绑定this
         // console.log("构造函数，最先被执行")
         super(props);
+
+
+        // 创建ListViewDataSource对象
+        const dataSource = new ListView.DataSource({
+            rowHasChanged: (row1, row2) => row1 !== row2 // rowHasChanged(prevRowData, nextRowData); 用其进行数据变更的比较
+        })
+
+
+
+
         this.state = {
+            dataSource,
             slideshowList:[],
             classifyList:[],
-            tourData:[]
+            tourData:[],
+            recommendList:[]
         }
         this.fetchData = this.fetchData.bind(this)
     }
 
     static getDerivedStateFromProps(nextProps, prevState){//挂载更新都会执行 (必须返回一个有效的状态对象(或null))
-        console.log("getDerivedStateFromProps 是个静态方法,当我们接收到新的属性想去修改我们state")
+        // console.log("getDerivedStateFromProps 是个静态方法,当我们接收到新的属性想去修改我们state")
         return null;
     }
 
@@ -42,8 +57,8 @@ class Home extends Component{
             city_id: 0,
             abbreviation: ""
         }).then(data=>{
-            console.log("123456",data);
-            console.log("slide",data.slide_list);
+            // console.log("123456",data);
+            // console.log("slide",data.slide_list);
             this.setState({
                 classifyList: data.classify_list,
                 slideshowList: data.slide_list
@@ -76,22 +91,99 @@ class Home extends Component{
         })
     }
 
+    async fetchRecommendList(){
+        const result = await GET_RECOMMEND_LIST({
+            city_id: 0,
+            category: "",
+            keywords: "",
+            venue_id: "",
+            start_time: "",
+            page: 1,
+            referer_type: "index"
+        });
+        this.setState({dataSource:this.state.dataSource.cloneWithRows(result.list)})
+        //数据源中的数据本身是不可修改的,要更新datasource中的数据，请（每次都重新）调用cloneWithRows方法
+        console.log("推荐列表",result);
+    }
+
+    onEndReached(){
+        console.log("onEndReached")
+    }
+
 
     render(){
+
+        const row = (rowData, sectionID, rowID) => {
+            console.log("row",rowData)
+            return (
+              <div key={rowID} style={{backgroundColor:"#ccc",height:"50px"}}>
+                123456
+              </div>
+            );
+        };
+
+
+        const separator = (sectionID, rowID) => (
+            <div
+              key={`${sectionID}-${rowID}`}
+              style={{
+                backgroundColor: '#F5F5F9',
+                height: 8,
+                borderTop: '1px solid #ECECED',
+                borderBottom: '1px solid #ECECED',
+              }}
+            />
+        );
+
+        
+
+
+
+
+
         return (
-            <section className="home-container">
-                <SlideShow slideshowList={this.state.slideshowList}/>
-                <Classify classifyList={this.state.classifyList}/>
-                <MyNavBar leftTitle="热门演出" rightTitle="全部" href="/热门演出"/>
-                <HotRecommendList hotRecommendList={this.props.home.hotRecommendList}/>
+            // <section className="home-container">
+            //     <SlideShow slideshowList={this.state.slideshowList}/>
+            //     <Classify classifyList={this.state.classifyList}/>
+            //     <MyNavBar leftTitle="热门演出" rightTitle="全部" href="/热门演出"/>
+            //     <HotRecommendList hotRecommendList={this.props.home.hotRecommendList}/>
 
-                <MyNavBar leftTitle="巡回演出" rightTitle="全部" href="/巡回演出"/>
-                <Tour tourData={this.state.tourData}/>
+            //     <MyNavBar leftTitle="巡回演出" rightTitle="全部" href="/巡回演出"/>
+            //     <Tour tourData={this.state.tourData}/>
 
 
-                <MyNavBar leftTitle="为你推荐"/>
+            //     <MyNavBar leftTitle="为你推荐"/>
 
-            </section>
+            //     <ForYouRecommendList/>
+
+            // </section>
+                <ListView
+                    // ref={el => this.lv = el}
+                    dataSource={this.state.dataSource}
+                    renderHeader={() => <span>header</span>}
+                    renderFooter={() => (<div style={{ padding: 30, textAlign: 'center' }}>
+                    {this.state.isLoading ? 'Loading...' : 'Loaded'}
+                    </div>)}
+                    renderRow={row}
+                    renderSeparator={separator}
+                    style={{
+                        height: document.documentElement.clientHeight,
+                        overflow: 'auto',
+                        marginBottom:"50px"
+                    }}
+                    pageSize={4}
+                    onScroll={() => { console.log('scroll'); }}
+                    scrollRenderAheadDistance={500}
+                    onEndReached={this.onEndReached}
+                    onEndReachedThreshold={10}
+                />
+
+
+
+
+
+
+            
         )
     }
 
@@ -100,6 +192,7 @@ class Home extends Component{
         this.fetchData();
         this.fetchHotRecommendList();
         this.fetchTourData();
+        this.fetchRecommendList();
     }
 
 

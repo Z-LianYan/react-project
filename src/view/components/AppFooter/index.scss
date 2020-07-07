@@ -10,18 +10,15 @@
     align-items: center;
     background-color: #f7f7f7;
     a{
-        
         display: flex;
         flex: 1;
         flex-direction: column;
         align-items: center;
         justify-content: space-around;
-        // padding: 5px 0;
+        padding-bottom: 5px;
         width: 100%;
         height: 100%;
-        
         i{
-            
             display: block;
             width: 0.3rem;
             height: 0.3rem;
@@ -30,7 +27,6 @@
         span{
             font-size: 0.14rem;
         }
-
         .home {
             background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAA8CAMAAAANIilAAAAAXVBMVEUAAAAjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyNLZYnxAAAAHnRSTlMAoNAGw38S7dr6PK/xXVoj4KQ4JrimkYpzaVAxDuItXUgYAAABA0lEQVRIx+2S646DIBBGR0e8FIvV3i/7vf9jLlk3sAnYwWb/tOH8IiOHwImUybwlk+7R6+klV2FGrVd5BNDqFsDIK926ArqtXWw7oKpXufsWaDY/y00DtPs0zQsDzQzuIBl31eAJyZkLJg8XqdF5jOxULrqc2QRjI0b3mQOC6FJmj48uZhb+GyFzgBydtfv27HTNC7eCEXoaxN9VwkISsJThuEefJNt94Xi6HJPk42WiCEWSXBB9tHz9ur4ulyiznOX/lFmQeVE+AXdBvgOnuHwDqsdT+VEBN4pTAo0uZswf2fzOdAM7WGDYwcNOZnh2Ay1Rn51+IIvqFFkOTj3XlMms4huH9iEk3eJ+9QAAAABJRU5ErkJggg==);
         }
@@ -44,7 +40,6 @@
         &.actived{
             // color:$base-color;
             position: relative;
-            
             .home {
                 position: absolute;
                 width: 0.42rem;

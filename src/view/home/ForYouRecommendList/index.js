@@ -1,77 +1,33 @@
 import React,{ Component } from "react";
 import "./index.scss";
 
-import { Carousel } from 'antd-mobile';
-import { NavLink } from 'react-router-dom';
-
-
-
-export default class Slideshow extends Component{
+export default class ForYouRecommendList extends Component{
     constructor(props){//构造函数，最先被执行,通常在构造函数里初始化state对象或者给自定义方法绑定this
+        // console.log("构造函数，最先被执行")
         super(props);
         this.state = {
-            imgHeight:"100%"
+
         }
     }
 
     static getDerivedStateFromProps(nextProps, prevState){//挂载更新都会执行 (必须返回一个有效的状态对象(或null))
+        // console.log("getDerivedStateFromProps 是个静态方法,当我们接收到新的属性想去修改我们state")
         return null;
     }
 
 
     render(){
-        // console.log("render函数是纯函数",this.props.slideshowList)
-
-        const slideshowList = [];
-        this.props.slideshowList.forEach( item => {
-            if(item.url.indexOf("ticket")!==-1){
-                slideshowList.push(item);
-            }
-        })
-
-        // console.log("----录播",slideshowList);
+        // console.log("render函数是纯函数")
 
         return (
-            <section className="slideshow-wrapper padding-rl">
-                {slideshowList.length && <Carousel  //防止初始化不自动轮播
-                autoplay={false}
-                autoplayInterval={3000}
-                infinite
-                className="carousel"
-                selectedIndex={2}
-                // beforeChange={(from, to) => console.log(`slide from ${from} to ${to}`)}
-                // afterChange={index => console.log('slide to', index)}
-                dotActiveStyle={{background:"#fff",width:"0.13rem",borderRadius:'0.03rem'}}>
-                {slideshowList.map((val,index) => (
-                    <NavLink
-                    key={index}
-                    style={{height: this.state.imgHeight}}
-                    to="/">
-                    <img
-                        src={val.image_url}
-                        alt=""
-                        onLoad={() => {
-                            // fire window resize event to change height
-                            window.dispatchEvent(new Event('resize'));
-                            this.setState({ imgHeight: '100%' });
-                            // console.log("图片加载")
-                        }}
-                    />
-                    </NavLink>
-                ))}
-                </Carousel>}
-            </section>
+            <div>
+                ForYouRecommendList
+            </div>
         )
     }
 
     componentDidMount(){
-        // let carousel = document.querySelector('.slider.am-carousel');
-        // let carouH = carousel.clientWidth/360*137;
-        // let carouUl = carousel.querySelector('ul.slider-list');
-
-        // setTimeout(() => {
-        //     carouUl.style.height = `${carouH}px`;
-        // });
+        // console.log("componentDidMount 组件装载之后调用")
     }
 
 

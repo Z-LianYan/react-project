@@ -4,6 +4,8 @@ import { Route, Switch, withRouter } from 'react-router-dom';
 
 import { Home, Mine, Theater } from "./view";
 
+import Test from "@/view/test/index";
+
 
 
 import AppFooter from "./view/components/AppFooter/index";
@@ -57,7 +59,8 @@ App.defaultProps = {//不需要更改的放这里
 	routes: [
 		{ id: 1, path: '/', component: Home, exact: true },
 		{ id: 2, path: '/theater', component: Theater },
-		{ id: 3, path: '/mine', component: Mine }
+		{ id: 3, path: '/mine', component: Mine },
+		{ id: 4, path: '/test', component: Test }
 	]
 }
 

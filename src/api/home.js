@@ -45,3 +45,18 @@ export function GET_TOUR_LIST(params){
         })
     })
 }
+
+export function GET_RECOMMEND_LIST(params){
+    return new Promise((resolve,reject)=>{
+        HttpUtils.get(Api.GET_RECOMMEND_LIST,params,{isLoading:true}).then(res=>{
+            switch(res.code){
+                case '200':
+                    resolve(res.data)
+                break;
+                default:
+                    reject(res.data)
+                break;
+            }
+        })
+    })
+}
