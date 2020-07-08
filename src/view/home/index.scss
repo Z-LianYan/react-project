@@ -1,3 +1,6 @@
 .home-container{
     padding-bottom: 0.5rem;
 }
+.am-list-view-scrollview-content{
+    position: relative !important;//改相对定位，不然布局会乱
+}

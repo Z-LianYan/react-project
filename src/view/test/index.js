@@ -1,62 +1,121 @@
+import React from 'react';
+import { province } from 'antd-mobile-demo-data';
+import { StickyContainer, Sticky } from 'react-sticky';
+import { ListView, List, SearchBar } from 'antd-mobile';
 
+const { Item } = List;
 
-import React, { Component } from 'react'
-import { Tabs, WhiteSpace, Badge } from 'antd-mobile';
+function genData(ds, provinceData) {
+  const dataBlob = {};
+  const sectionIDs = [];
+  const rowIDs = [];
+  Object.keys(provinceData).forEach((item, index) => {
+    sectionIDs.push(item);
+    dataBlob[item] = item;
+    rowIDs[index] = [];
 
-const tabs = [
-  { title: <Badge text={'3'}>First Tab</Badge> },
-  { title: <Badge text={'今日(20)'}>Second Tab</Badge> },
-  { title: <Badge dot>Third Tab</Badge> },
-];
-
-const tabs2 = [
-  { title: 'First Tab', sub: '1' },
-  { title: 'Second Tab', sub: '2' },
-  { title: 'Third Tab', sub: '3' },
-];
-
-class TabExample extends Component{
-    
-    render (){
-        
-        return (
-            <div>
-                <Tabs tabs={tabs}
-                initialPage={1}
-                onChange={(tab, index) => { console.log('onChange', index, tab); }}
-                onTabClick={(tab, index) => { console.log('onTabClick', index, tab); }}
-                >
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '150px', backgroundColor: '#fff' }}>
-                    Content of first tab
-                </div>
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '150px', backgroundColor: '#fff' }}>
-                    Content of second tab
-                </div>
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '150px', backgroundColor: '#fff' }}>
-                    Content of third tab
-                </div>
-                </Tabs>
-                <WhiteSpace/>
-                    <Tabs tabs={tabs2}
-                    initialPage={1}
-                    tabBarPosition="bottom"
-                    renderTab={tab => <span>{tab.title}</span>}
-                    >
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '150px', backgroundColor: '#fff' }}>
-                        Content of first tab
-                    </div>
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '150px', backgroundColor: '#fff' }}>
-                        Content of second tab
-                    </div>
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '150px', backgroundColor: '#fff' }}>
-                        Content of third tab
-                    </div>
-                    </Tabs>
-                <WhiteSpace />
-            </div>
-        )
-    };
+    provinceData[item].forEach((jj) => {
+      rowIDs[index].push(jj.value);
+      dataBlob[jj.value] = jj.label;
+    });
+  });
+  return ds.cloneWithRowsAndSections(dataBlob, sectionIDs, rowIDs);
 }
 
+export default class Demo extends React.Component {
+  constructor(props) {
+    super(props);
+    const getSectionData = (dataBlob, sectionID) => dataBlob[sectionID];
+    const getRowData = (dataBlob, sectionID, rowID) => dataBlob[rowID];
 
-export default TabExample
+    const dataSource = new ListView.DataSource({
+      getRowData,
+      getSectionHeaderData: getSectionData,
+      rowHasChanged: (row1, row2) => row1 !== row2,
+      sectionHeaderHasChanged: (s1, s2) => s1 !== s2,
+    });
+
+    this.state = {
+      inputValue: '',
+      dataSource,
+      isLoading: true,
+    };
+  }
+
+  componentDidMount() {
+    // simulate initial Ajax
+    setTimeout(() => {
+      this.setState({
+        dataSource: genData(this.state.dataSource, province),
+        isLoading: false,
+      });
+    }, 600);
+  }
+
+  onSearch = (val) => {
+    const pd = { ...province };
+    Object.keys(pd).forEach((item) => {
+      const arr = pd[item].filter(jj => jj.spell.toLocaleLowerCase().indexOf(val) > -1);
+      if (!arr.length) {
+        delete pd[item];
+      } else {
+        pd[item] = arr;
+      }
+    });
+    this.setState({
+      inputValue: val,
+      dataSource: genData(this.state.dataSource, pd),
+    });
+  }
+
+  render() {
+    return (<div style={{ paddingTop: '44px', position: 'relative' }}>
+      <div style={{ position: 'absolute', top: 0, left: 0, right: 0 }}>
+        <SearchBar
+          value={this.state.inputValue}
+          placeholder="Search"
+          onChange={this.onSearch}
+          onClear={() => { console.log('onClear'); }}
+          onCancel={() => { console.log('onCancel'); }}
+        />
+      </div>
+      <ListView.IndexedList
+        dataSource={this.state.dataSource}
+        className="am-list sticky-list"
+        useBodyScroll
+        renderSectionWrapper={sectionID => (
+          <StickyContainer
+            key={`s_${sectionID}_c`}
+            className="sticky-container"
+            style={{ zIndex: 4 }}
+          />
+        )}
+        renderSectionHeader={sectionData => (
+          <Sticky>
+            {({
+              style,
+            }) => (
+              <div
+                className="sticky"
+                style={{
+                  ...style,
+                  zIndex: 3,
+                  backgroundColor: sectionData.charCodeAt(0) % 2 ? '#5890ff' : '#F8591A',
+                  color: 'white',
+                }}
+              >{sectionData}</div>
+            )}
+          </Sticky>
+        )}
+        renderHeader={() => <span>custom header</span>}
+        renderFooter={() => <span>custom footer</span>}
+        renderRow={rowData => (<Item>{rowData}</Item>)}
+        quickSearchBarStyle={{
+          top: 85,
+        }}
+        delayTime={10}
+        delayActivityIndicator={<div style={{ padding: 25, textAlign: 'center' }}>rendering...</div>}
+      />
+    </div>);
+  }
+}

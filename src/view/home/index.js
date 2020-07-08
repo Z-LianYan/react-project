@@ -23,6 +23,26 @@ import Tour from "@/view/Home/Tour/index";
 
 import ForYouRecommendList from "@/view/Home/ForYouRecommendList/index";
 
+const CustomComponent = ({slideshowList,classifyList,hotRecommendList,tourData}) =>{
+    console.log("123456===========")
+    return (
+        <div>
+            <SlideShow slideshowList={slideshowList}/>
+            <Classify classifyList={classifyList}/>
+            <MyNavBar leftTitle="热门演出" rightTitle="全部" href="/热门演出"/>
+            <HotRecommendList hotRecommendList={hotRecommendList}/>
+
+            <MyNavBar leftTitle="巡回演出" rightTitle="全部" href="/巡回演出"/>
+            <Tour tourData={tourData}/>
+
+
+            <MyNavBar leftTitle="为你推荐"/>
+
+            <ForYouRecommendList/>
+        </div>
+    )
+}
+
 class Home extends Component{
     constructor(props){//构造函数，最先被执行,通常在构造函数里初始化state对象或者给自定义方法绑定this
         // console.log("构造函数，最先被执行")
@@ -110,19 +130,20 @@ class Home extends Component{
         console.log("onEndReached")
     }
 
+    renderScrollComponent(){
+        const { slideshowList,classifyList,tourData } = this.state;
+        return <CustomComponent 
+        key="001"
+        slideshowList={slideshowList} 
+        classifyList={classifyList}
+        hotRecommendList={this.props.home.hotRecommendList}
+        tourData={tourData}/>
+    }
+
 
     render(){
 
-        const row = (rowData, sectionID, rowID) => {
-            console.log("row",rowData)
-            return (
-              <div key={rowID} style={{backgroundColor:"#ccc",height:"50px"}}>
-                123456
-              </div>
-            );
-        };
-
-
+        
         const separator = (sectionID, rowID) => (
             <div
               key={`${sectionID}-${rowID}`}
@@ -135,28 +156,8 @@ class Home extends Component{
             />
         );
 
-        
-
-
-
-
 
         return (
-            // <section className="home-container">
-            //     <SlideShow slideshowList={this.state.slideshowList}/>
-            //     <Classify classifyList={this.state.classifyList}/>
-            //     <MyNavBar leftTitle="热门演出" rightTitle="全部" href="/热门演出"/>
-            //     <HotRecommendList hotRecommendList={this.props.home.hotRecommendList}/>
-
-            //     <MyNavBar leftTitle="巡回演出" rightTitle="全部" href="/巡回演出"/>
-            //     <Tour tourData={this.state.tourData}/>
-
-
-            //     <MyNavBar leftTitle="为你推荐"/>
-
-            //     <ForYouRecommendList/>
-
-            // </section>
                 <ListView
                     // ref={el => this.lv = el}
                     dataSource={this.state.dataSource}
@@ -164,24 +165,29 @@ class Home extends Component{
                     renderFooter={() => (<div style={{ padding: 30, textAlign: 'center' }}>
                     {this.state.isLoading ? 'Loading...' : 'Loaded'}
                     </div>)}
-                    renderRow={row}
+                    renderRow={(rowData, sectionID, rowID)=>{
+                        return (<div style={{backgroundColor:"#ccc",height:"50px"}}>{rowID}</div>)
+                    }}
+
+                    renderSectionWrapper={()=>this.renderScrollComponent()}
+
+
                     renderSeparator={separator}
                     style={{
-                        height: document.documentElement.clientHeight,
+                        height: document.documentElement.clientHeight-50,
                         overflow: 'auto',
-                        marginBottom:"50px"
+                        marginBottom:"0.5rem"
                     }}
                     pageSize={4}
-                    onScroll={() => { console.log('scroll'); }}
+                    onScroll={() => { console.log('scroll',document.documentElement.clientHeight); }}
                     scrollRenderAheadDistance={500}
                     onEndReached={this.onEndReached}
                     onEndReachedThreshold={10}
                 />
 
 
-
-
-
+            
+                
 
             
         )
