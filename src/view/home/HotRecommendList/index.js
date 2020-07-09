@@ -23,7 +23,7 @@ export default class HotRecommendList extends Component {
 
     render() {
         const { hotRecommendList } = this.props;
-        // console.log("热门推荐",hotRecommendList)
+        console.log("热门推荐---哈哈哈😄",hotRecommendList);
 
         return (
             <div className="padding-t padding-l">
@@ -73,7 +73,7 @@ export default class HotRecommendList extends Component {
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        // console.log("componentDidUpdate")
+        console.log("componentDidUpdate")
     }
 
 

@@ -2,13 +2,15 @@
 import { HOT_RECOMMEND_LIST } from './const';
 
 const actionCreator = {
-	getHotRecommendList(param) {
+	getHotRecommendList(params) {
         let action = {
             type: HOT_RECOMMEND_LIST,
-            param
+            params
         }
         return action
     },
+
+    
 }
 
 export default actionCreator

@@ -87,7 +87,7 @@ export default class Slideshow extends Component{
     shouldComponentUpdate(nextProps, nextState){//nextProps新的属性 和 nextState变化之后的state
         //返回一个布尔值 true表示会触发重新渲染，false表示不会触发重新渲染，
         //默认返回true,我们通常利用此生命周期来优化React程序性能
-        // console.log("shouldComponentUpdate")
+        console.log("shouldComponentUpdate")
         return true;
     }
 

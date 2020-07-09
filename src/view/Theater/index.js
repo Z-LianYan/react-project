@@ -3,7 +3,7 @@ import './index.scss';
 
 // import { Toast, WhiteSpace, WingBlank, Button } from 'antd-mobile';
 
-import { get_classify_home } from "@/api/home";
+import { get_slide_classify_home } from "@/api/home";
 
 class Home extends Component{
     constructor(props){//构造函数，最先被执行,通常在构造函数里初始化state对象或者给自定义方法绑定this
@@ -21,7 +21,7 @@ class Home extends Component{
     }
 
     toast(){
-        get_classify_home({
+        get_slide_classify_home({
             city_id: 0,
             abbreviation: "",
             version: "6.1.1",

@@ -1,5 +1,5 @@
 
-export const GET_CALSSIFY_HOME = "/home/index/getClassifyHome";
+export const GET_SLIDE_CALSSIFY_HOME = "/home/index/getClassifyHome";
 
 export const GET_HOT_RECOMMEND_LIST = "/home/index/getHotsRecommendList";
 

@@ -10,7 +10,7 @@ import { ListView } from 'antd-mobile';
 
 
 
-import { get_classify_home,GET_TOUR_LIST,GET_RECOMMEND_LIST } from "@/api/home";
+import { get_slide_classify_home,GET_TOUR_LIST,GET_RECOMMEND_LIST } from "@/api/home";
 
 import Classify from "@/view/Home/Classify/index";
 import SlideShow from "@/view/Home/Slideshow/index";
@@ -24,7 +24,6 @@ import Tour from "@/view/Home/Tour/index";
 import ForYouRecommendList from "@/view/Home/ForYouRecommendList/index";
 
 const CustomComponent = ({slideshowList,classifyList,hotRecommendList,tourData}) =>{
-    console.log("123456===========")
     return (
         <div>
             <SlideShow slideshowList={slideshowList}/>
@@ -64,7 +63,6 @@ class Home extends Component{
             tourData:[],
             recommendList:[]
         }
-        this.fetchData = this.fetchData.bind(this)
     }
 
     static getDerivedStateFromProps(nextProps, prevState){//挂载更新都会执行 (必须返回一个有效的状态对象(或null))
@@ -72,36 +70,26 @@ class Home extends Component{
         return null;
     }
 
-    fetchData(){
-        get_classify_home({
+    fetchSlideClassifyList(){
+        
+        get_slide_classify_home({
             city_id: 0,
             abbreviation: ""
         }).then(data=>{
-            // console.log("123456",data);
-            // console.log("slide",data.slide_list);
             this.setState({
                 classifyList: data.classify_list,
                 slideshowList: data.slide_list
             })
         })
+
+        // this.props.get_slide_classify_home();
+        console.log("轮播图",this.props)
+
+
     }
 
     async fetchHotRecommendList(){
-        // let result = await GET_HOT_RECOMMEND_LIST({city_id: 0});
-        // this.setState({
-        //     hotRecommendList:result.hots_show_list
-        // })
-
         this.props.getHotRecommendList({city_id: 0});
-
-        // setTimeout(() => {
-            console.log("热更新列表------",this.props.home.hotRecommendList)
-        // }, 2000);
-        
-
-
-
-
     }
 
     async fetchTourData(){
@@ -121,8 +109,8 @@ class Home extends Component{
             page: 1,
             referer_type: "index"
         });
-        this.setState({dataSource:this.state.dataSource.cloneWithRows(result.list)})
-        //数据源中的数据本身是不可修改的,要更新datasource中的数据，请（每次都重新）调用cloneWithRows方法
+        
+        
         console.log("推荐列表",result);
     }
 
@@ -143,40 +131,22 @@ class Home extends Component{
 
     render(){
 
-        
-        const separator = (sectionID, rowID) => (
-            <div
-              key={`${sectionID}-${rowID}`}
-              style={{
-                backgroundColor: '#F5F5F9',
-                height: 8,
-                borderTop: '1px solid #ECECED',
-                borderBottom: '1px solid #ECECED',
-              }}
-            />
-        );
-
-
         return (
                 <ListView
                     // ref={el => this.lv = el}
                     dataSource={this.state.dataSource}
-                    renderHeader={() => <span>header</span>}
+                    renderHeader={() => <span style={{position:"fixed",top:0}}>header</span>}
                     renderFooter={() => (<div style={{ padding: 30, textAlign: 'center' }}>
                     {this.state.isLoading ? 'Loading...' : 'Loaded'}
                     </div>)}
                     renderRow={(rowData, sectionID, rowID)=>{
                         return (<div style={{backgroundColor:"#ccc",height:"50px"}}>{rowID}</div>)
                     }}
-
                     renderSectionWrapper={()=>this.renderScrollComponent()}
-
-
-                    renderSeparator={separator}
                     style={{
                         height: document.documentElement.clientHeight-50,
                         overflow: 'auto',
-                        marginBottom:"0.5rem"
+                        marginBottom:"50px"
                     }}
                     pageSize={4}
                     onScroll={() => { console.log('scroll',document.documentElement.clientHeight); }}
@@ -195,7 +165,9 @@ class Home extends Component{
 
     componentDidMount(){
         // console.log("componentDidMount 组件装载之后调用")
-        this.fetchData();
+        this.setState({dataSource:this.state.dataSource.cloneWithRows([{}])})//数据源中的数据本身是不可修改的,要更新datasource中的数据，请（每次都重新）调用cloneWithRows方法
+        
+        this.fetchSlideClassifyList();
         this.fetchHotRecommendList();
         this.fetchTourData();
         this.fetchRecommendList();

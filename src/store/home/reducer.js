@@ -10,12 +10,10 @@ const reducer = (previousState = state , action) => {
 	let new_state = { ...previousState }
 	switch(action.type){
 		case HOT_RECOMMEND_LIST:
-			GET_HOT_RECOMMEND_LIST({city_id: 0}).then(res=>{
+			GET_HOT_RECOMMEND_LIST(action.params).then(res=>{
 				new_state.hotRecommendList = res.hots_show_list;
-				console.log("store热列表",res,new_state,action.param);
 			})
-		break;
-			
+			break;
 		default: break;
 
 	}
