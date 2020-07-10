@@ -2,15 +2,12 @@ import React,{ Component } from "react";
 import './index.scss';
 
 
-import actionCreator from '@/store/home/actionCreator';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import GroupHome from '@/module/home';
+
 
 import { ListView } from 'antd-mobile';
 
-
-
-import { get_slide_classify_home,GET_TOUR_LIST,GET_RECOMMEND_LIST } from "@/api/home";
+import { get_slide_classify_home,get_tour_data,GET_RECOMMEND_LIST } from "@/api/home";
 
 import Classify from "@/view/Home/Classify/index";
 import SlideShow from "@/view/Home/Slideshow/index";
@@ -54,8 +51,6 @@ class Home extends Component{
         })
 
 
-
-
         this.state = {
             dataSource,
             slideshowList:[],
@@ -93,7 +88,7 @@ class Home extends Component{
     }
 
     async fetchTourData(){
-        const result = await GET_TOUR_LIST();
+        const result = await get_tour_data();
         this.setState({
             tourData:result.list
         })
@@ -155,10 +150,6 @@ class Home extends Component{
                     onEndReachedThreshold={10}
                 />
 
-
-            
-                
-
             
         )
     }
@@ -210,10 +201,4 @@ class Home extends Component{
 
 }
 
-//mapDispatchToProps也是一个函数，接收一个参数为dispatch,其实就是store.dispatch
-//返回什么，UI组件的属性上就有什么！
-let mapDispatchToProps = dispatch => {
-    return bindActionCreators(actionCreator, dispatch)
-}
-
-export default connect(state=>state, mapDispatchToProps)(Home);
+export default GroupHome(Home)

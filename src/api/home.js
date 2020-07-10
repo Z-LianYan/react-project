@@ -31,9 +31,9 @@ export function GET_HOT_RECOMMEND_LIST(params){
     })
 }
 
-export function GET_TOUR_LIST(params){
+export function get_tour_data(params){
     return new Promise((resolve,reject)=>{
-        HttpUtils.get(Api.GET_TOUR_LIST,params,{isLoading:true}).then(res=>{
+        HttpUtils.get(Api.GET_TOUR_DATA,params,{isLoading:true}).then(res=>{
             switch(res.code){
                 case '200':
                     resolve(res.data)

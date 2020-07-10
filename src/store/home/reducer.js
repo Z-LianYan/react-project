@@ -2,9 +2,9 @@
 
 import state from './state';
 
-import { GET_HOT_RECOMMEND_LIST } from "@/api/home";
+import { GET_HOT_RECOMMEND_LIST,get_tour_data } from "@/api/home";
 
-import { HOT_RECOMMEND_LIST } from './const';
+import { HOT_RECOMMEND_LIST,GET_TOUR_DATA } from './const';
 
 const reducer = (previousState = state , action) => {
 	let new_state = { ...previousState }
@@ -14,12 +14,13 @@ const reducer = (previousState = state , action) => {
 				new_state.hotRecommendList = res.hots_show_list;
 			})
 			break;
+		case GET_TOUR_DATA:
+			get_tour_data().then(res=>{
+				new_state.hotRecommendList = res.hots_show_list;
+			})
+			break;
 		default: break;
-
 	}
-
-	return new_state
+	return new_state;
 }
-
-
 export default reducer

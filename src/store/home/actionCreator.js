@@ -1,5 +1,5 @@
 
-import { HOT_RECOMMEND_LIST } from './const';
+import { HOT_RECOMMEND_LIST,GET_TOUR_DATA } from './const';
 
 const actionCreator = {
 	getHotRecommendList(params) {
@@ -10,7 +10,13 @@ const actionCreator = {
         return action
     },
 
-    
+    getTourData(){
+        let action = {
+            type:GET_TOUR_DATA
+        }
+        return action;
+    }
+
 }
 
 export default actionCreator

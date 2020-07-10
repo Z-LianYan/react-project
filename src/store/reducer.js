@@ -12,4 +12,4 @@ const reducer = combineReducers({
 	home
 })
 
-export default reducer
+export default reducer;
