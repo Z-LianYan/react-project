@@ -2,22 +2,23 @@
 
 import state from './state';
 
-import { GET_HOT_RECOMMEND_LIST,get_tour_data } from "@/api/home";
-
-import { HOT_RECOMMEND_LIST,GET_TOUR_DATA } from './const';
+import { GET_SLIDE_CLASSIFY_DATA,HOT_RECOMMEND_LIST,GET_TOUR_DATA,GET_FLOOR_LIST } from './const';
 
 const reducer = (previousState = state , action) => {
 	let new_state = { ...previousState }
 	switch(action.type){
+		case GET_SLIDE_CLASSIFY_DATA:
+			new_state.slide_list = action.data.slide_list;
+			new_state.classify_list = action.data.classify_list;
+			break;
 		case HOT_RECOMMEND_LIST:
-			GET_HOT_RECOMMEND_LIST(action.params).then(res=>{
-				new_state.hotRecommendList = res.hots_show_list;
-			})
+			new_state.hotRecommendList = action.data||[];
 			break;
 		case GET_TOUR_DATA:
-			get_tour_data().then(res=>{
-				new_state.hotRecommendList = res.hots_show_list;
-			})
+			new_state.tourData = action.data||[];
+			break;
+		case GET_FLOOR_LIST:
+			new_state.floorList = action.data||[];
 			break;
 		default: break;
 	}

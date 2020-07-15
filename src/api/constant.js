@@ -6,3 +6,5 @@ export const GET_HOT_RECOMMEND_LIST = "/home/index/getHotsRecommendList";
 export const GET_TOUR_DATA = "/show/tour/getList";
 
 export const GET_RECOMMEND_LIST = "/Show/Search/getShowList";
+
+export const GET_FLOOR_LIST = "/home/index/getFloorShow";

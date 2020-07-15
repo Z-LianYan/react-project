@@ -7,7 +7,7 @@ import GroupHome from '@/module/home';
 
 import { ListView } from 'antd-mobile';
 
-import { get_slide_classify_home,get_tour_data,GET_RECOMMEND_LIST } from "@/api/home";
+import { GET_HOT_RECOMMEND_LIST,get_slide_classify_home,get_tour_data,GET_RECOMMEND_LIST,get_floor_list } from "@/api/home";
 
 import Classify from "@/view/Home/Classify/index";
 import SlideShow from "@/view/Home/Slideshow/index";
@@ -20,21 +20,24 @@ import Tour from "@/view/Home/Tour/index";
 
 import ForYouRecommendList from "@/view/Home/ForYouRecommendList/index";
 
-const CustomComponent = ({slideshowList,classifyList,hotRecommendList,tourData}) =>{
+import ShowFloor from "@/view/Home/showFloor/index";
+
+const CustomComponent = ({slide_list,classify_list,hotRecommendList,tourData,floorList,forYourecommendList}) =>{
     return (
         <div>
-            <SlideShow slideshowList={slideshowList}/>
-            <Classify classifyList={classifyList}/>
+            <SlideShow slideshowList={slide_list}/>
+            <Classify classifyList={classify_list}/>
             <MyNavBar leftTitle="热门演出" rightTitle="全部" href="/热门演出"/>
             <HotRecommendList hotRecommendList={hotRecommendList}/>
 
             <MyNavBar leftTitle="巡回演出" rightTitle="全部" href="/巡回演出"/>
             <Tour tourData={tourData}/>
 
+            <ShowFloor floorList={floorList}/>
+            
 
             <MyNavBar leftTitle="为你推荐"/>
-
-            <ForYouRecommendList/>
+            <ForYouRecommendList forYourecommendList={forYourecommendList}/>
         </div>
     )
 }
@@ -44,19 +47,13 @@ class Home extends Component{
         // console.log("构造函数，最先被执行")
         super(props);
 
-
         // 创建ListViewDataSource对象
         const dataSource = new ListView.DataSource({
             rowHasChanged: (row1, row2) => row1 !== row2 // rowHasChanged(prevRowData, nextRowData); 用其进行数据变更的比较
         })
-
-
         this.state = {
             dataSource,
-            slideshowList:[],
-            classifyList:[],
-            tourData:[],
-            recommendList:[]
+            forYourecommendList:[],
         }
     }
 
@@ -65,33 +62,27 @@ class Home extends Component{
         return null;
     }
 
-    fetchSlideClassifyList(){
-        
-        get_slide_classify_home({
+    async fetchFloorList(){
+        const result  = await get_floor_list({city_id: 0});
+        this.props.getFloorList(result);
+    }
+
+    async fetchSlideClassifyList(){
+        const result = await get_slide_classify_home({
             city_id: 0,
             abbreviation: ""
-        }).then(data=>{
-            this.setState({
-                classifyList: data.classify_list,
-                slideshowList: data.slide_list
-            })
         })
-
-        // this.props.get_slide_classify_home();
-        console.log("轮播图",this.props)
-
-
+        this.props.getSlideClassifyData(result);
     }
 
     async fetchHotRecommendList(){
-        this.props.getHotRecommendList({city_id: 0});
+        const result = await GET_HOT_RECOMMEND_LIST({city_id: 0});
+        this.props.getHotRecommendList(result.hots_show_list);
     }
 
     async fetchTourData(){
         const result = await get_tour_data();
-        this.setState({
-            tourData:result.list
-        })
+        this.props.getTourData(result.list);
     }
 
     async fetchRecommendList(){
@@ -104,9 +95,13 @@ class Home extends Component{
             page: 1,
             referer_type: "index"
         });
-        
-        
-        console.log("推荐列表",result);
+
+
+        this.setState({
+            forYourecommendList:result.list
+        })
+
+        console.log("为你推荐列表",result,this.state.forYourecommendList);
     }
 
     onEndReached(){
@@ -114,23 +109,23 @@ class Home extends Component{
     }
 
     renderScrollComponent(){
-        const { slideshowList,classifyList,tourData } = this.state;
         return <CustomComponent 
         key="001"
-        slideshowList={slideshowList} 
-        classifyList={classifyList}
+        slide_list={this.props.home.slide_list} 
+        classify_list={this.props.home.classify_list}
         hotRecommendList={this.props.home.hotRecommendList}
-        tourData={tourData}/>
+        tourData={this.props.home.tourData}
+        forYourecommendList={this.state.forYourecommendList}
+        floorList={this.props.home.floorList}/>
     }
 
 
     render(){
-
         return (
                 <ListView
                     // ref={el => this.lv = el}
                     dataSource={this.state.dataSource}
-                    renderHeader={() => <span style={{position:"fixed",top:0}}>header</span>}
+                    renderHeader={() => <span>header</span>}
                     renderFooter={() => (<div style={{ padding: 30, textAlign: 'center' }}>
                     {this.state.isLoading ? 'Loading...' : 'Loaded'}
                     </div>)}
@@ -159,9 +154,14 @@ class Home extends Component{
         this.setState({dataSource:this.state.dataSource.cloneWithRows([{}])})//数据源中的数据本身是不可修改的,要更新datasource中的数据，请（每次都重新）调用cloneWithRows方法
         
         this.fetchSlideClassifyList();
+
         this.fetchHotRecommendList();
+
         this.fetchTourData();
+
         this.fetchRecommendList();
+        
+        this.fetchFloorList();
     }
 
 
@@ -169,7 +169,6 @@ class Home extends Component{
     shouldComponentUpdate(nextProps, nextState){//nextProps新的属性 和 nextState变化之后的state
         //返回一个布尔值 true表示会触发重新渲染，false表示不会触发重新渲染，
         //默认返回true,我们通常利用此生命周期来优化React程序性能
-        // console.log("shouldComponentUpdate")
         return true;
     }
 

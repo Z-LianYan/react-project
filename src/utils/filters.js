@@ -6,3 +6,6 @@ Component.prototype.$formatDate = function formatDate(val){
 Component.prototype.$formatMonthDay = function formatDate(val){
     return dayjs(val).format("MM.DD")
 }
+Component.prototype.$formatHourMinute = function formatDate(val){
+    return dayjs(val).format("HH:mm")
+}

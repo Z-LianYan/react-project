@@ -17,17 +17,17 @@ export default class ForYouRecommendList extends Component{
 
 
     render(){
-        // console.log("render函数是纯函数")
+        console.log("render函数是纯函数",this.props)
 
         return (
-            <div>
+            <section className="for-you-recommend-list padding-rl">
                 ForYouRecommendList
-            </div>
+            </section>
         )
     }
 
     componentDidMount(){
-        // console.log("componentDidMount 组件装载之后调用")
+        console.log("componentDidMount 组件装载之后调用")
     }
 
 

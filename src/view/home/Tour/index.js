@@ -16,8 +16,6 @@ export default class Tour extends Component {
 
     render() {
         const { tourData } = this.props;
-        // console.log("tourData😂",tourData);
-        // console.log("tourData😂", this.$formatDate);
         return (
             <section className="tour-wrapper">
                 {tourData.length && <div className="content-wrapper">
@@ -29,7 +27,7 @@ export default class Tour extends Component {
                         <h4 className="tour-title overflow-ellipsis-tow">{tourData[0].name}</h4>
                         <p className="price-wrapper">
                             <span className="price">¥ 80</span>
-                            <span className="qi">起</span>
+                            <span className="qi"> 起 </span>
                         </p>
                         <div className="city-list">
                             <span className="num">{tourData[0].citys.length}</span>

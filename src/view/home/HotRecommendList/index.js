@@ -23,14 +23,12 @@ export default class HotRecommendList extends Component {
 
     render() {
         const { hotRecommendList } = this.props;
-        console.log("热门推荐---哈哈哈😄",hotRecommendList);
-
         return (
             <div className="padding-t padding-l">
                 <div className="swiper-container hot-recommend-list">
                     <div className="swiper-wrapper">
                         {
-                            hotRecommendList.map((item,idx)=>(
+                            hotRecommendList.length && hotRecommendList.map((item,idx)=>(
                                 <NavLink 
                                 key={idx} 
                                 to="/" 
