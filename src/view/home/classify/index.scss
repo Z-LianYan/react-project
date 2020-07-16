@@ -1,12 +1,9 @@
 .classify-wrapper {
-    // padding: 0.1656rem 0.1656rem 0 0.1656rem;
     display: flex;
     flex-flow: row wrap;
-     
-    
     a {
-        width: 0.68376rem;
-        height: 0.68376rem;
+        width: 0.67rem;
+        height: 0.67rem;
         display: flex;
         flex-flow: column nowrap;
         align-items: center;
@@ -17,7 +14,5 @@
             width: 0.44156rem;
             height: 0.44156rem;
         }
-        
     }
-    
 }

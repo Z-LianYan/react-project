@@ -12,9 +12,7 @@ export default class ShowFloor extends Component{
     constructor(props){//构造函数，最先被执行,通常在构造函数里初始化state对象或者给自定义方法绑定this
         console.log("构造函数，最先被执行")
         super(props);
-        this.state = {
-
-        }
+        this.state = {}
     }
 
     static getDerivedStateFromProps(nextProps, prevState){//挂载更新都会执行 (必须返回一个有效的状态对象(或null))
@@ -28,53 +26,67 @@ export default class ShowFloor extends Component{
         return (
             <section>
                 {
-                    floorList.length && floorList.map((item,idx)=>(
-                        <div className="item-wrapper" key={idx}>
-                            <div className="my-nav-bar">
-                                <MyNavBar leftTitle={item.title} href="/"/>
-                            </div>
-                            <div className="top-content padding-rl">
-                                <img src={item.list[0].pic} alt=""/>
-
-                                <div className="top-content-right padding-r">
-                                    <p>
-                                        <strong className="date">
-                                            { this.$formatDate(item.list[0].show_time*1000) }
-                                        </strong>
-                                        <span className="hour-minute">
-                                            { " " + item.list[0].week + " " + this.$formatHourMinute(item.list[0].show_time*1000) }
-                                        </span>
-                                    </p>
-                                    <p className="overflow-ellipsis-tow title">{item.list[0].schedular_name}</p>
-                                    <p className="addr">
-                                        {item.list[0].city_name} | {item.list[0].venue_name}
-                                    </p>
+                    floorList.length && floorList.map((item,idx)=>{
+                        if(item.list.length<5) return true;
+                        return (
+                            <div className="item-wrapper" key={idx}>
+                                <div className="my-nav-bar">
+                                    <MyNavBar leftTitle={item.title} href="/"/>
                                 </div>
-                            </div>
-                            <div className="bottom-content padding-t padding-l">
-                                <div className="swiper-container floor-list">
-                                    <div className="swiper-wrapper">
-                                        {
-                                            item.list.length && item.list.map((itm,index)=>(
-                                                <NavLink 
-                                                key={index} 
-                                                to="/" 
-                                                className="swiper-slide hot-recommend-item item-margin">
-                                                    <img 
-                                                    src={itm.pic}
-                                                    alt=""/>
-                                                    <p className="overflow-ellipsis-tow">
-                                                        {itm.schedular_name}
-                                                    </p>
-                                                </NavLink>
-                                            ))
-                                        }
-                                        
+                                <div className="top-content padding-rl">
+                                    <div className="img-wrapper">
+                                        <img src={item.list[0].pic} alt=""/>
+                                        <div dangerouslySetInnerHTML = {{__html:item.list[0].ico}} ></div>
+                                    </div>
+                                    <div className="top-content-right padding-r">
+                                        <p>
+                                            <strong className="date">
+                                                { this.$formatDate(item.list[0].show_time*1000) }
+                                            </strong>
+                                            <span className="hour-minute">
+                                                { " " + item.list[0].week + " " + this.$formatHourMinute(item.list[0].show_time*1000) }
+                                            </span>
+                                        </p>
+                                        <p className="overflow-ellipsis-tow title">{item.list[0].schedular_name}</p>
+                                        <p className="addr">
+                                            {item.list[0].city_name} | {item.list[0].venue_name}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div className="bottom-content padding-t padding-l">
+                                    <div className="swiper-container floor-list">
+                                        <div className="swiper-wrapper">
+                                            {
+                                                item.list.length && item.list.map((itm,index)=>{
+                                                    if(index===0) return true;
+                                                    return (
+                                                        <NavLink 
+                                                        key={index} 
+                                                        to="/" 
+                                                        className="swiper-slide hot-recommend-item item-margin">
+                                                            <div className="img-wrapper">
+                                                                <img src={itm.pic} alt=""/> 
+                                                                <div dangerouslySetInnerHTML = {{__html:itm.ico}} ></div>
+                                                            </div>
+                                                            
+                                                            <p className="overflow-ellipsis-tow title">
+                                                                {itm.schedular_name}
+                                                            </p>
+                                                            <p className="price-wrapper">
+                                                                <strong>¥ {itm.low_price && itm.low_price.replace(".00","")}</strong>
+                                                                <span>起</span>
+                                                            </p>
+                                                        </NavLink>
+                                                    )
+                                                })
+                                            }
+                                            
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    ))
+                        )
+                    })
                 }
                 
             </section>

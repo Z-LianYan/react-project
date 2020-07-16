@@ -7,7 +7,13 @@ import GroupHome from '@/module/home';
 
 import { ListView } from 'antd-mobile';
 
-import { GET_HOT_RECOMMEND_LIST,get_slide_classify_home,get_tour_data,GET_RECOMMEND_LIST,get_floor_list } from "@/api/home";
+import { 
+    GET_HOT_RECOMMEND_LIST,
+    get_slide_classify_home,
+    get_tour_data,
+    GET_RECOMMEND_LIST,
+    get_floor_list 
+} from "@/api/home";
 
 import Classify from "@/view/Home/Classify/index";
 import SlideShow from "@/view/Home/Slideshow/index";
@@ -20,7 +26,7 @@ import Tour from "@/view/Home/Tour/index";
 
 import ForYouRecommendList from "@/view/Home/ForYouRecommendList/index";
 
-import ShowFloor from "@/view/Home/showFloor/index";
+import ShowFloor from "@/view/Home/ShowFloor/index";
 
 const CustomComponent = ({slide_list,classify_list,hotRecommendList,tourData,floorList,forYourecommendList}) =>{
     return (
@@ -34,7 +40,7 @@ const CustomComponent = ({slide_list,classify_list,hotRecommendList,tourData,flo
             <Tour tourData={tourData}/>
 
             <ShowFloor floorList={floorList}/>
-            
+
 
             <MyNavBar leftTitle="为你推荐"/>
             <ForYouRecommendList forYourecommendList={forYourecommendList}/>
