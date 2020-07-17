@@ -1,121 +1,54 @@
-import React from 'react';
-import { province } from 'antd-mobile-demo-data';
-import { StickyContainer, Sticky } from 'react-sticky';
-import { ListView, List, SearchBar } from 'antd-mobile';
+import React from 'react'
+import { ColorExtractor } from 'react-color-extractor'
 
-const { Item } = List;
+export default class Text extends React.Component {
+  state = { colors: [] }
 
-function genData(ds, provinceData) {
-  const dataBlob = {};
-  const sectionIDs = [];
-  const rowIDs = [];
-  Object.keys(provinceData).forEach((item, index) => {
-    sectionIDs.push(item);
-    dataBlob[item] = item;
-    rowIDs[index] = [];
+  renderSwatches = () => {
+    const { colors } = this.state
 
-    provinceData[item].forEach((jj) => {
-      rowIDs[index].push(jj.value);
-      dataBlob[jj.value] = jj.label;
-    });
-  });
-  return ds.cloneWithRowsAndSections(dataBlob, sectionIDs, rowIDs);
-}
-
-export default class Demo extends React.Component {
-  constructor(props) {
-    super(props);
-    const getSectionData = (dataBlob, sectionID) => dataBlob[sectionID];
-    const getRowData = (dataBlob, sectionID, rowID) => dataBlob[rowID];
-
-    const dataSource = new ListView.DataSource({
-      getRowData,
-      getSectionHeaderData: getSectionData,
-      rowHasChanged: (row1, row2) => row1 !== row2,
-      sectionHeaderHasChanged: (s1, s2) => s1 !== s2,
-    });
-
-    this.state = {
-      inputValue: '',
-      dataSource,
-      isLoading: true,
-    };
+    return colors.map((color, id) => {
+      return (
+        <div
+          key={id}
+          style={{
+            backgroundColor: color,
+            width: 100,
+            height: 100
+          }}
+        />
+      )
+    })
   }
 
-  componentDidMount() {
-    // simulate initial Ajax
-    setTimeout(() => {
-      this.setState({
-        dataSource: genData(this.state.dataSource, province),
-        isLoading: false,
-      });
-    }, 600);
-  }
-
-  onSearch = (val) => {
-    const pd = { ...province };
-    Object.keys(pd).forEach((item) => {
-      const arr = pd[item].filter(jj => jj.spell.toLocaleLowerCase().indexOf(val) > -1);
-      if (!arr.length) {
-        delete pd[item];
-      } else {
-        pd[item] = arr;
-      }
-    });
-    this.setState({
-      inputValue: val,
-      dataSource: genData(this.state.dataSource, pd),
-    });
+  getColors = colors => {
+    console.log("colors",colors)
+    this.setState(state => ({ colors: [...state.colors, ...colors] }))
   }
 
   render() {
-    return (<div style={{ paddingTop: '44px', position: 'relative' }}>
-      <div style={{ position: 'absolute', top: 0, left: 0, right: 0 }}>
-        <SearchBar
-          value={this.state.inputValue}
-          placeholder="Search"
-          onChange={this.onSearch}
-          onClear={() => { console.log('onClear'); }}
-          onCancel={() => { console.log('onCancel'); }}
-        />
-      </div>
-      <ListView.IndexedList
-        dataSource={this.state.dataSource}
-        className="am-list sticky-list"
-        useBodyScroll
-        renderSectionWrapper={sectionID => (
-          <StickyContainer
-            key={`s_${sectionID}_c`}
-            className="sticky-container"
-            style={{ zIndex: 4 }}
+    return (
+      <div>
+        <ColorExtractor getColors={this.getColors}>
+          <img
+            alt=""
+            src={require("./123.jpg")}
+            style={{ width: 100, height: 500 }}
           />
-        )}
-        renderSectionHeader={sectionData => (
-          <Sticky>
-            {({
-              style,
-            }) => (
-              <div
-                className="sticky"
-                style={{
-                  ...style,
-                  zIndex: 3,
-                  backgroundColor: sectionData.charCodeAt(0) % 2 ? '#5890ff' : '#F8591A',
-                  color: 'white',
-                }}
-              >{sectionData}</div>
-            )}
-          </Sticky>
-        )}
-        renderHeader={() => <span>custom header</span>}
-        renderFooter={() => <span>custom footer</span>}
-        renderRow={rowData => (<Item>{rowData}</Item>)}
-        quickSearchBarStyle={{
-          top: 85,
-        }}
-        delayTime={10}
-        delayActivityIndicator={<div style={{ padding: 25, textAlign: 'center' }}>rendering...</div>}
-      />
-    </div>);
+        </ColorExtractor>
+
+
+
+        <div
+          style={{
+            marginTop: 20,
+            display: 'flex',
+            justifyContent: 'center'
+          }}
+        >
+          {this.renderSwatches()}
+        </div>
+      </div>
+    )
   }
 }

@@ -8,11 +8,18 @@ import { NavLink } from 'react-router-dom';
 import Swiper from 'swiper';
 import 'swiper/css/swiper.css';
 
+import { ColorExtractor } from 'react-color-extractor';
+
+
+
+
 export default class ShowFloor extends Component{
     constructor(props){//构造函数，最先被执行,通常在构造函数里初始化state对象或者给自定义方法绑定this
         console.log("构造函数，最先被执行")
         super(props);
-        this.state = {}
+        this.state = {
+            colors:{}
+        }
     }
 
     static getDerivedStateFromProps(nextProps, prevState){//挂载更新都会执行 (必须返回一个有效的状态对象(或null))
@@ -33,9 +40,17 @@ export default class ShowFloor extends Component{
                                 <div className="my-nav-bar">
                                     <MyNavBar leftTitle={item.title} href="/"/>
                                 </div>
-                                <div className="top-content padding-rl">
+                                <div className="top-content padding-rl" style={{background:this.state.colors[item.title]}}>
                                     <div className="img-wrapper">
-                                        <img src={item.list[0].pic} alt=""/>
+                                        <ColorExtractor getColors={(colors)=>{
+                                            const obj = Object.assign({},this.state.colors)
+                                            obj[item.title] = colors[5]
+                                            this.setState({
+                                                colors:obj
+                                            })
+                                        }}>
+                                            <img src={item.list[0].pic} alt=""/>
+                                        </ColorExtractor>
                                         <div dangerouslySetInnerHTML = {{__html:item.list[0].ico}} ></div>
                                     </div>
                                     <div className="top-content-right padding-r">
@@ -103,6 +118,7 @@ export default class ShowFloor extends Component{
             })
         }, 1000);
 
+        
 
     }
 
