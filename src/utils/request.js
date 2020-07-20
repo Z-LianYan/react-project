@@ -49,6 +49,8 @@ if(process.env.NODE_ENV === "development") {
     api = "/api"
 }
 
+
+
 export function post(url,data,{isLoading=false,text="加载中..."}={}){
   return new Promise((resolve,reject)=>{
     if(isLoading) Toast.loading(text, 0);
@@ -69,7 +71,7 @@ export function post(url,data,{isLoading=false,text="加载中..."}={}){
 
 export function get(url,params,{isLoading=false,text="加载中..."}={}){
   return new Promise((resolve,reject)=>{
-    if(isLoading) Toast.loading(text, 0)
+    if(isLoading) Toast.loading(text, 0);
     service({
       url:api + url,
       method:'GET',

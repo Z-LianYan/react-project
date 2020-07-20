@@ -29,7 +29,7 @@ export default class ShowFloor extends Component{
 
     render(){
         const { floorList } = this.props; 
-        console.log("render函数是纯函数--------",floorList)
+        // console.log("render函数是纯函数--------",floorList)
         return (
             <section>
                 {
@@ -41,7 +41,7 @@ export default class ShowFloor extends Component{
                                     <MyNavBar leftTitle={item.title} href="/"/>
                                 </div>
                                 <div className="top-content padding-rl" style={{background:this.state.colors[item.title]}}>
-                                    <div className="img-wrapper">
+                                    <div className="img-floor-wrapper">
                                         <ColorExtractor getColors={(colors)=>{
                                             const obj = Object.assign({},this.state.colors)
                                             obj[item.title] = colors[5]
