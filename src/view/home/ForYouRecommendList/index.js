@@ -19,12 +19,13 @@ export default class ForYouRecommendList extends Component{
         const { forYourecommendList } = this.props;
 
         return (
-            <section className="for-you-recommend-list padding-rl">
+            <section className="for-you-recommend-list padding-rl clear">
                 { forYourecommendList.length && forYourecommendList.map((item,index)=>{
                     return (
                         <a href="/" className="item-wrapper" key={index}>
                             <div className="img-wrapper">
                                 <img src={item.pic} alt=""/>
+                                <span className="addr">广州</span>
                             </div>
                             
                             <div className="for-you-commend-content">

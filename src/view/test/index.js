@@ -32,7 +32,7 @@ export default class Text extends React.Component {
         <ColorExtractor getColors={this.getColors}>
           <img
             alt=""
-            src={require("./123.jpg")}
+            src=""
             style={{ width: 100, height: 500 }}
           />
         </ColorExtractor>
