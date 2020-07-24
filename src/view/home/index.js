@@ -59,7 +59,7 @@ class Home extends Component{
         })
         this.state = {
             dataSource,
-            forYourecommendList:[],
+            forYourecommendList:[]
         }
     }
 
@@ -102,13 +102,15 @@ class Home extends Component{
             referer_type: "index"
         });
 
-
         this.setState({
             forYourecommendList:result.list
         })
 
         console.log("为你推荐列表",result,this.state.forYourecommendList);
+
     }
+
+    
 
     onEndReached(){
         console.log("onEndReached")

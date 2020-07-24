@@ -5,7 +5,10 @@ export default class ForYouRecommendList extends Component{
     constructor(props){//构造函数，最先被执行,通常在构造函数里初始化state对象或者给自定义方法绑定this
         // console.log("构造函数，最先被执行")
         super(props);
-        this.state = {}
+        this.state = {
+            forYourecommendListLeft:[],
+            forYourecommendListRight:[],
+        }
     }
 
     static getDerivedStateFromProps(nextProps, prevState){//挂载更新都会执行 (必须返回一个有效的状态对象(或null))
@@ -17,51 +20,111 @@ export default class ForYouRecommendList extends Component{
     render(){
         // console.log("render函数是纯函数===",this.props);
         const { forYourecommendList } = this.props;
+        
 
         return (
-            <section className="for-you-recommend-list padding-rl clear">
-                { forYourecommendList.length && forYourecommendList.map((item,index)=>{
-                    return (
-                        <a href="/" className="item-wrapper" key={index}>
-                            <div className="img-wrapper">
-                                <img src={item.pic} alt=""/>
-                                <span className="addr">广州</span>
-                            </div>
-                            
-                            <div className="for-you-commend-content">
-                                <div className="title-wrapper">
-                                    {
-                                       item.method_icon? <img src={item.method_icon} alt=""/>:''
-                                    }
-                                    <p className={item.method_icon?"overflow-ellipsis-tow title":"overflow-ellipsis-tow"}>{item.name}</p>
+            <section className="for-you-recommend-list padding-rl clear" ref={ref=>this.newPinterest = ref}>
+                <ul className="item1">
+                    { forYourecommendList.length && forYourecommendList.map((item,index)=>{
+                        return (
+                            <a href="/" className="item-wrapper" key={index}>
+                                <div className="img-wrapper">
+                                    <img src={item.pic} alt=""/>
+                                    <span className="addr">广州</span>
                                 </div>
-                                <p className="show-scope">
-                                    {this.$formatDate(item.start_show_timestamp*1000) + " - " + this.$formatMonthDay(item.end_show_timestamp*1000) }
-                                </p>
-                                <p className="price">
-                                    <strong>
-                                        ¥ {item.min_price}
-                                    </strong>
-                                    <span> 起</span>
-                                </p>
-                                <div className="group-tag">
-                                    {item.support_desc.map((itm,idx)=>{
-                                        return (
-                                            <span className="tag-item" key={idx}>{itm}</span>
-                                        )
-                                    })}
-                                    
+                                
+                                <div className="for-you-commend-content">
+                                    <div className="title-wrapper">
+                                        {
+                                        item.method_icon? <img src={item.method_icon} alt=""/>:''
+                                        }
+                                        <p className={item.method_icon?"overflow-ellipsis-tow title":"overflow-ellipsis-tow"}>{item.name}</p>
+                                    </div>
+                                    <p className="show-scope">
+                                        {this.$formatDate(item.start_show_timestamp*1000) + " - " + this.$formatMonthDay(item.end_show_timestamp*1000) }
+                                    </p>
+                                    <p className="price">
+                                        <strong>
+                                            ¥ {item.min_price}
+                                        </strong>
+                                        <span> 起</span>
+                                    </p>
+                                    <div className="group-tag">
+                                        {item.support_desc.map((itm,idx)=>{
+                                            return (
+                                                <span className="tag-item" key={idx}>{itm}</span>
+                                            )
+                                        })}
+                                        
+                                    </div>
                                 </div>
-                            </div>
-                        </a>
-                    )
-                })}
+                            </a>
+                        )
+                    })}
+                </ul>
+                <ul className="item2">
+                    { forYourecommendList.length && forYourecommendList.map((item,index)=>{
+                        return (
+                            <a href="/" className="item-wrapper" key={index}>
+                                <div className="img-wrapper">
+                                    <img src={item.pic} alt=""/>
+                                    <span className="addr">广州</span>
+                                </div>
+                                
+                                <div className="for-you-commend-content">
+                                    <div className="title-wrapper">
+                                        {
+                                        item.method_icon? <img src={item.method_icon} alt=""/>:''
+                                        }
+                                        <p className={item.method_icon?"overflow-ellipsis-tow title":"overflow-ellipsis-tow"}>{item.name}</p>
+                                    </div>
+                                    <p className="show-scope">
+                                        {this.$formatDate(item.start_show_timestamp*1000) + " - " + this.$formatMonthDay(item.end_show_timestamp*1000) }
+                                    </p>
+                                    <p className="price">
+                                        <strong>
+                                            ¥ {item.min_price}
+                                        </strong>
+                                        <span> 起</span>
+                                    </p>
+                                    <div className="group-tag">
+                                        {item.support_desc.map((itm,idx)=>{
+                                            return (
+                                                <span className="tag-item" key={idx}>{itm}</span>
+                                            )
+                                        })}
+                                        
+                                    </div>
+                                </div>
+                            </a>
+                        )
+                    })}
+                </ul>
             </section>
         )
     }
 
+
+    //获取高度最低的一个
+    getMinContain = () =>{
+        const {newPinterest} = this;
+        const {childNodes} = newPinterest;
+        let minData = childNodes[0];
+        childNodes&&childNodes.forEach(item=>{
+            if(item.offsetHeight<minData.offsetHeight){
+                minData = item
+            }
+        });
+        return minData;
+    };
+
+
+
     componentDidMount(){
         console.log("componentDidMount 组件装载之后调用")
+        
+
+
     }
 
 
@@ -85,6 +148,27 @@ export default class ForYouRecommendList extends Component{
         //第三个参数是getSnapshotBeforeUpdate返回的,如果触发某些回调函数时需要用到 DOM 元素的状态，
         //则将对比或计算的过程迁移至 getSnapshotBeforeUpdate，然后在 componentDidUpdate 中统一触发回调或更新状态
         // console.log("componentDidUpdate")
+
+
+
+        
+
+        // const { forYourecommendList } = this.props;
+        // const {  forYourecommendListLeft,forYourecommendListRight } = this.state;
+        // forYourecommendList.map(item=>{
+        //     const a = this.getMinContain();
+        
+        //     switch (a.className){
+        //         case 'item1':forYourecommendListLeft.push(item);break;
+        //         case 'item2':forYourecommendListRight.push(item);break;
+        //         default:return null;
+        //     }
+        //     this.setState({forYourecommendListLeft,forYourecommendListRight});
+        // })
+
+        // console.log("婚纱哈哈哈哈哈哈",forYourecommendList,this.state.forYourecommendListLeft,this.state.forYourecommendListRight)
+
+
     }
     
 
